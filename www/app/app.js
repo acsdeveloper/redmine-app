@@ -4,8 +4,10 @@
   angular.module('redmine', 
     [
       'redmine.core',
+      'redmine.service',
       'redmine.login',
-      'redmine.controllers'
+      'redmine.controllers',
+      'redmine.home'
     ])
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {

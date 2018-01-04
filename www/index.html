@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>Redmine App</title>
+    <title></title>
 
     <link rel="manifest" href="manifest.json">
 
@@ -34,9 +34,16 @@
     <script src="app/app.core.js"></script>
     <script src="app/main.controller.js"></script>
 
+    <!-- your core's js -->
+    <script src="app/core/service.js"></script>
+
     <script src="app/login/login.service.js"></script>
     <script src="app/login/login.controller.js"></script>
     <script src="app/login/login.routes.js"></script>
+
+    <script src="app/home/home.service.js"></script>
+    <script src="app/home/home.controller.js"></script>
+    <script src="app/home/home.routes.js"></script>
 
   </head>
   <body ng-app="redmine" ng-controller="MainCtrl">

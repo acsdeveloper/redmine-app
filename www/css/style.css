@@ -1,1 +1,78 @@
 /* Empty. Add your own CSS if you like */
+/*  Login page */
+
+.form-container .form-content .form-wrapper .form-logo {
+    font-size: 24px;
+    margin-bottom: 20px
+}
+
+.form-container {
+    background-size: cover;
+    text-align: center
+}
+
+.form-container .form-content {
+    padding: 20px 10px;
+    bottom: 50px;
+    box-sizing: content-box;
+    height: initial!important
+}
+
+.form-container .form-content.login {
+    bottom: 90px
+}
+
+.form-container .form-content .row,
+.form-container .form-content .scroll {
+    height: 100%;
+    padding: 0
+}
+
+.form-container .form-content .row .col,
+.form-container .form-content .scroll .col {
+    padding: 0
+}
+
+.form-container .form-content .form-wrapper .form-header {
+    font-size: 24px
+}
+
+.form-container .form-content .form-wrapper .details {
+    margin-top: 10px;
+    font-size: 15px
+}
+
+.form-container .form-content .form-wrapper input {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    border-bottom: 1px solid #e2dede;
+    background: 0 0;
+    font-size: 15px;
+}
+
+/* .form-container .form-content .form-wrapper input.error {
+    border-bottom: 1px solid #171414;
+} */
+
+.form-container .form-content .form-wrapper input:last-of-type {
+    margin-bottom: 10px
+}
+
+.form-container .form-content .form-wrapper .error-msg {
+    color: #bf5757;
+    font-size: 12px;
+    margin-top: 5px
+}
+
+.redmine-footer
+{
+    padding: 0px;
+}
+
+.redmine-footer .button
+{
+    margin: 0px;
+    padding: 0px;
+    font-size: 19px;
+}

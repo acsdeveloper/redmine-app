@@ -1,0 +1,30 @@
+<ion-view view-title="Login" class="form-container">
+        <ion-content class="form-content login" overflow-scroll=”false”>
+            <div class="row row-center">
+                <div class="col">
+                    <div class="form-wrapper">
+                         <div class="form-logo">
+                          Acs
+                        </div>
+                        <div class="form-header">
+                            Login
+                        </div>
+                        <div class="details">
+                            Enter details below
+                        </div>
+                        <input type="text" ng-model="vm.username" value="" placeholder="Username" ng-class="vm.isUsernameValid? '':'error'" ng-blur="vm.validateUsername()">
+                        <div ng-show="!vm.isUsernameValid" class="error-msg">Username is invalid</div>
+
+                        <input type="password" ng-model="vm.password" value="" placeholder="Password" ng-class="vm.isPasswordValid? '':'error'" ng-blur="vm.validatePassword()">
+                        <div ng-show="!vm.isPasswordValid" class="error-msg">Password is invalid</div>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+        <ion-footer-bar class="redmine-footer login">
+            <button class="button button-full submit-button" ng-click="vm.login()">
+                Login
+            </button>
+        </ion-footer-bar>
+    </form>
+</ion-view>
