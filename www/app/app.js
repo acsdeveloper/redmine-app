@@ -5,6 +5,7 @@
     [
       'redmine.core',
       'redmine.service',
+      'redmine.userservice',
       'redmine.login',
       'redmine.controllers',
       'redmine.home'

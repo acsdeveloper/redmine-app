@@ -1,0 +1,26 @@
+<ion-view view-title="Home" class="form-container">
+        <header class="bar bar-header bar-stable">
+                <h1 class="title">Home</h1>
+            </header>
+    <ion-content class="form-content home-screen" overflow-scroll=”false”>
+        <div class="row row-center">
+
+            <div class="col div-wrapper">
+                <div class="form-logo">
+                    <img src="../img/logo.png">
+                    <p> Agile Cyber Solutions</p>
+                </div>
+                <button class="button button-full button-positive btn-home">
+                    Permission Booking
+                </button>
+                <button class="button button-full button-positive btn-home" ng-click="vm.booklunch();" ng-disabled="!vm.islunchbook">
+                    Lunch Booking
+                </button>
+                <button class="button button-full button-positive btn-home">
+                    Monthly Lunch Report
+                </button>
+            </div>
+        </div>
+    </ion-content>
+    </form>
+</ion-view>

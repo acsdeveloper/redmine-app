@@ -65,6 +65,17 @@
     margin-top: 5px
 }
 
+.form-logo img
+{
+    width: 6em;
+}
+
+.form-logo p
+{
+    padding: 10px 4px;
+    font-size: 16px;
+}
+
 .redmine-footer
 {
     padding: 0px;
@@ -75,4 +86,23 @@
     margin: 0px;
     padding: 0px;
     font-size: 19px;
+}
+
+
+/** Home Screen **/
+
+.btn-home {
+    border-radius: 6px;
+}
+
+.div-wrapper {
+    margin: 0vw 7vw;
+}
+
+.div-wrapper .form-logo{
+    padding: 2vw 3vw;
+}
+
+.div-wrapper .form-logo img{
+    width : 12em;
 }

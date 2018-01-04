@@ -1,13 +1,17 @@
 
 (function () {
 	'use strict';
-	function LoginCtrl(LoginService) {
+	function LoginCtrl(LoginService,Base64,AuthInterceptor,$http,UserService,$rootScope,$state) {
 		var vm = this;
 		vm.username = "";
 		vm.password = "";
 		vm.isUsernameValid = true;
 		vm.isPasswordValid = true;
-
+		vm.authdata = {
+			"headers"  : {
+					"Authorization" : "",
+			}
+		}
 		vm.validateUsername = function () {
             if (vm.username !== null && vm.username !== '' && vm.username !== "") {
                 vm.isUsernameValid = true;
@@ -22,8 +26,16 @@
 		vm.login = function () {
 			 if (vm.username !== null && vm.username !== '' && vm.username !== "") {
 				if (vm.password !== null && vm.password !== '' && vm.password !== "") {
-					LoginService.login(vm.username,vm.password).then(function (resp) {
-						console.log(resp)
+					vm.details = Base64.encode(vm.username + ':' + vm.password);
+					vm.authdata.headers.Authorization = "Basic " + vm.details
+					$http.defaults.headers.common['Authorization'] = 'Basic ' + vm.details;
+					AuthInterceptor.request(vm.authdata);
+					LoginService.login().then(function (resp) {
+						localStorage.setItem("authDetails", JSON.stringify(resp.user));
+						 $rootScope.$broadcast('LOGGED_IN', {isLoggedIn: true});
+						 if (UserService.isLoggedIn()) {
+								$state.go('home');
+					 	  }
 					});
 				}
 				else
@@ -40,5 +52,5 @@
 
 	angular.module('redmine.login')
 		.controller('LoginCtrl', LoginCtrl)
-	LoginCtrl.$inject = ['LoginService'];
+	LoginCtrl.$inject = ['LoginService','Base64','AuthInterceptor','$http','UserService','$rootScope','$state'];
 }());
