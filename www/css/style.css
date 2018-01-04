@@ -106,3 +106,10 @@
 .div-wrapper .form-logo img{
     width : 12em;
 }
+
+/** Lunch Screen **/
+
+.lunch-screen
+{
+    padding: 4em 1em;
+}

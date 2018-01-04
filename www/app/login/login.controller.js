@@ -27,8 +27,11 @@
 			 if (vm.username !== null && vm.username !== '' && vm.username !== "") {
 				if (vm.password !== null && vm.password !== '' && vm.password !== "") {
 					vm.details = Base64.encode(vm.username + ':' + vm.password);
-					vm.authdata.headers.Authorization = "Basic " + vm.details
+					vm.authdata.headers.Authorization = "Basic " + vm.details;
+					console.log("Basic " + vm.details)
+					console.log(vm.authdata.headers.Authorization)
 					$http.defaults.headers.common['Authorization'] = 'Basic ' + vm.details;
+					localStorage.setItem("authoptions", vm.authdata.headers.Authorization);
 					AuthInterceptor.request(vm.authdata);
 					LoginService.login().then(function (resp) {
 						localStorage.setItem("authDetails", JSON.stringify(resp.user));

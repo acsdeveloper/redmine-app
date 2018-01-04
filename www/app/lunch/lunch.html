@@ -1,0 +1,30 @@
+<ion-view view-title="Lunch" class="form-container">
+    <header class="bar bar-header bar-stable">
+        <h1 class="title">Lunch Booking</h1>
+    </header>
+    <ion-content class="lunch-screen" overflow-scroll=”false”>
+        <div class="list">
+            <!-- <label class="item item-input item-select">
+                <div class="input-label">
+                    Total Count 
+                </div>
+                <select ng-model="vm.lunchoptions">
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </label> -->
+            <div class="message">
+                Today's Lunch Count   :    {{vm.totay_count}}
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="redmine-footer login">
+        <button class="button button-full submit-button"  ng-if="vm.lunchbooked_id ==''" ng-click="vm.booklunch()">
+            Book Lunch
+        </button>
+        <button class="button button-full submit-button"  ng-if="vm.lunchbooked_id !=''" ng-click="vm.cancellunch(vm.lunchbooked_id)">
+            Cancel Lunch
+        </button>
+    </ion-footer-bar>
+    </form>
+</ion-view>
