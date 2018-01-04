@@ -7,7 +7,11 @@
       'redmine.service',
       'redmine.login',
       'redmine.controllers',
-      'redmine.home'
+      'redmine.home',
+      'redmine.lunch',
+      'redmine.office',
+      'redmine.permission',
+      'redmine.report'
     ])
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
