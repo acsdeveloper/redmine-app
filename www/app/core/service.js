@@ -36,7 +36,7 @@
                     var cb = callback || angular.noop;
                     $http.defaults.headers.post["Content-Type"] = "application/json";
                     $http.post(url, postData).success(function (response, status) {
-                        if (status === 200) {
+                        if (status === 200 || status === 201)  {
                             deferred.resolve(response);
                             return cb();
                         } else {
@@ -85,9 +85,9 @@
                     var deferred = $q.defer();
                     var cb = callback || angular.noop;
                     $http.defaults.headers.post["Content-Type"] = "application/json";
-                    console.log(postData);
-                    $http.delete(url, postData).success(function (response, status) {
-                        if (status === 200) {
+            
+                    $http.delete(url).success(function (response, status) {
+                        if (status === 200 && status === 201) {
                             deferred.resolve(response);
                             return cb();
                         } else {
@@ -216,7 +216,7 @@
                     // config.headers['authorization'] = 'Basic c3ZzdmlqYXk6c3ZzMTY0dmlqYXk=';
                     // config.headers['cache-control'] = 'no-cache';
                     config.headers['Content-Type'] = 'application/json';
-                    config.timeout = 10000;
+                    // config.timeout = 10000;
                     return config;
                 }
             };

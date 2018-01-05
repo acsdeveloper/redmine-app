@@ -107,3 +107,29 @@
     width : 12em;
 }
 
+/** Lunch Screen **/
+
+.lunch-screen {
+    padding: 4em 1em;
+}
+
+.container {
+    padding: 10px;
+    background-color: #f8f8f8;
+}
+
+.permission .member_info {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    line-height: 1.5;
+}
+
+.permission .booking {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+}
+
