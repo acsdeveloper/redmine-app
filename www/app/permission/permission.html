@@ -12,25 +12,26 @@
 
 				<div class="row">
                     <div class="col">
-                        Ayyappan
+                        {{vm.userInfo.firstname}} {{vm.userInfo.lastname}}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col col-50">
-                        Shift Timing
+                        Office Start Time
                     </div>
-                    <div class="col col-50">
-                        8.30 am to 5.30 pm
+                    <div class="col">
+                        {{vm.officeStartTime}}
                     </div>
                 </div>
 			</div>
 			<div class="booking">
-				<h4>Booking </h4>
-				<button class="button button-full button-positive btn-home">
-                    Late
-                </button>
-                <button class="button button-full button-positive btn-home">
+				<h4>Booking</h4>
+				<input type="text" ng-model="vm.requestTime" placeholder="Enter Request Time" maxlength="2">	
+				<!-- <button class="button button-full button-positive btn-home" ng-disabled="vm.isLate" ng-click="vm.formSubmit()">
+                    Submit
+                </button> -->
+                <button class="button button-full button-positive btn-home" ng-disabled="vm.isOffice" ng-click="vm.officeClick()">
                     I'm In Office
                 </button>
 			</div>
