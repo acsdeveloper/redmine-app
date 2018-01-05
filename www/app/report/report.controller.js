@@ -6,6 +6,7 @@
         vm.years = [];
         vm.date = new Date();
         vm.project_id = 342;
+        vm.def = 0;
         vm.getUserdetails = JSON.parse(localStorage.getItem("authDetails"));
         console.log(vm.getUserdetails.id)
         vm.monthsvalue = vm.date.getMonth();
@@ -26,10 +27,16 @@
             $http.defaults.headers.common['Authorization'] = vm.auth;
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
-            vm.currentdate = vm.yearvalue + "-" + vm.monthformat(vm.monthsvalue) ;
+            var firstDay = new Date(vm.yearvalue, vm.monthsvalue, 1);
+            var lastDay = new Date(vm.yearvalue, vm.monthsvalue + 1, 0);
+            vm.currentdate = "><"+ vm.yearvalue + "-" + vm.monthformat(vm.monthsvalue) + "-" + vm.dayformat( firstDay.getDate() ) + "|" 
+                        +  vm.yearvalue + "-" + vm.monthformat(vm.monthsvalue) + "-" + lastDay.getDate();
             console.log(vm.project_id,vm.getUserdetails.id,vm.currentdate)
             ReportService.getreport(vm.project_id,vm.getUserdetails.id,vm.currentdate).then(function(resp){
                     console.log(resp)
+                    vm.report = resp.length;
+                    vm.totaldays = resp.total_count;
+                    vm.totalamount = vm.totaldays * 10;
             });
         }
 
@@ -37,6 +44,11 @@
         {
             return ((month+1) < 10 ? '0' + (month+1) : (month+1)) ;
         }
+        vm.dayformat = function(day)
+        {
+            return ((day) < 10 ? '0' + day : day ) ;
+        }
+        
         vm.getreports();
     }
 

@@ -109,7 +109,6 @@
 
 /** Lunch Screen **/
 
-<<<<<<< HEAD
 .bar > .button + .button:last-child
 {
     position: relative;
@@ -119,9 +118,6 @@
 }
 .lunch-screen
 {
-=======
-.lunch-screen {
->>>>>>> 42c93f8330e6f5f31ecd98c4861129dcf6b5587a
     padding: 4em 1em;
 }
 
@@ -145,3 +141,14 @@
     border-radius: 3px;
 }
 
+
+/** report screen **/
+
+.summary {
+    padding: 24px 0px;
+    font-size: 1.5em;
+}
+
+.message {
+    padding: 15px 0px;
+}
