@@ -109,6 +109,13 @@
 
 /** Lunch Screen **/
 
+.bar > .button + .button:last-child
+{
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
 .lunch-screen
 {
     padding: 4em 1em;

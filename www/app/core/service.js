@@ -87,7 +87,7 @@
                     $http.defaults.headers.post["Content-Type"] = "application/json";
             
                     $http.delete(url).success(function (response, status) {
-                        if (status === 200 && status === 201) {
+                        if (status === 200 || status === 201) {
                             deferred.resolve(response);
                             return cb();
                         } else {

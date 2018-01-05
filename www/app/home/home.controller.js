@@ -6,7 +6,7 @@
             vm.islunchbook = true;
             vm.date = $filter('date')(new Date(), "h:mm:ss a");
             console.log(vm.date);
-            if(vm.date > "4:00:00 PM" && vm.date < "8:00:00 PM") {
+            if(vm.date > "10:00:00 AM" && vm.date < "11:59:00 AM") {
                 vm.islunchbook= true;
             } 
             else {
@@ -14,6 +14,10 @@
             }
             vm.booklunch = function() {
                 $state.go("lunch")
+            }
+
+            vm.report = function() {
+                $state.go("report")
             }
     }
 
