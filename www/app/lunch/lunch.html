@@ -17,12 +17,17 @@
                 Today's Lunch Count   :    {{vm.totay_count}}
             </div>
         </div>
+        <div class="list">
+            <div class="lunch_booked">
+                    <h3>{{vm.lunch_message}}</h3>
+            </div>
+        </div>
     </ion-content>
     <ion-footer-bar class="redmine-footer login">
-        <button class="button button-full submit-button"  ng-if="vm.lunchbooked_id ==''" ng-click="vm.booklunch()">
+        <button class="button button-full submit-button"  ng-show="vm.lunchbooked_id ==''" ng-click="vm.booklunch()">
             Book Lunch
         </button>
-        <button class="button button-full submit-button"  ng-if="vm.lunchbooked_id !=''" ng-click="vm.cancellunch(vm.lunchbooked_id)">
+        <button class="button button-full submit-button"  ng-show="vm.lunchbooked_id !=''" ng-click="vm.cancellunch(vm.lunchbooked_id)">
             Cancel Lunch
         </button>
     </ion-footer-bar>

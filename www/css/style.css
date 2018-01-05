@@ -109,7 +109,19 @@
 
 /** Lunch Screen **/
 
+<<<<<<< HEAD
+.bar > .button + .button:last-child
+{
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+.lunch-screen
+{
+=======
 .lunch-screen {
+>>>>>>> 42c93f8330e6f5f31ecd98c4861129dcf6b5587a
     padding: 4em 1em;
 }
 

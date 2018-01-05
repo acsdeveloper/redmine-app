@@ -30,15 +30,18 @@
                 console.log(resp)
                 vm.lunchbooked_id = resp.time_entry.id;
             });
+            vm.lunchbooking();
         }
 
         vm.cancellunch = function(lunchid)
         {
             console.log(lunchid);
             LunchService.cancellunch(lunchid).then(function(resp)  {
-                console.log(resp);
-                vm.lunchbooked_id  ="";
+                console.log(vm.lunchbooked_id)
+                vm.lunchbooked_id  = "";
+                console.log(vm.lunchbooked_id)
             });
+            vm.lunchbooking();
         }
 
         vm.lunchbooking = function()
@@ -53,9 +56,20 @@
                 vm.users = resp.time_entries;
                 vm.currentuser_booking = vm.users.filter(function(data,i)
                 {
-                    console.log(data.user.id)
+                    return data.user.id == vm.getUserdetails.id;
                 });
-                console.log(vm.currentuser_booking);
+                if(vm.currentuser_booking.length > 0) 
+                {
+                    angular.forEach(vm.currentuser_booking, function (list) {
+                        vm.lunchbooked_id = list.id;
+
+                    });
+                    vm.lunch_message = "Your lunch is booked."
+                }
+                else
+                {
+                    vm.lunch_message = "Your lunch is not booked yet."
+                }
             });
         }
 

@@ -1,7 +1,7 @@
 
 (function () {
 	'use strict';
-	angular.module('redmine.home')
+	angular.module('redmine.report')
 		.config(function($stateProvider) {
 			$stateProvider
 				.state('report', {

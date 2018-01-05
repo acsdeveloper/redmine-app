@@ -1,3 +1,31 @@
+<<<<<<< HEAD
+<ion-view view-title="Report" class="form-container">
+    <header class="bar bar-header bar-stable">
+        <h1 class="title">Monthly Lunch Report</h1>
+    </header>
+    <ion-content class="lunch-screen" overflow-scroll=”false”>
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Months
+                </div>
+                <select ng-model="vm.monthsvalue" ng-options="vm.months.indexOf(month) as month for (idx, month) in vm.months">
+                </select>
+            </label>
+
+        </div>
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Year
+                </div>
+                <select ng-model="vm.yearvalue" ng-options="year for year in vm.years">
+                </select>
+            </label>
+
+        </div>
+    </ion-content>
+=======
 <ion-view>
 	<ion-header-bar align-title="center" class="bar-stable">
 	  	<div class="buttons">
@@ -5,4 +33,5 @@
 	  	</div>
 	  	<h1 class="title">Report</h1>
 	</ion-header-bar>
+>>>>>>> 42c93f8330e6f5f31ecd98c4861129dcf6b5587a
 </ion-view>
