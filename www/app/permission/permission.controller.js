@@ -1,11 +1,14 @@
 
 (function () {
     'use strict';
-    function PermissionCtrl(PermissionService) {
-
+    function PermissionCtrl($ionicHistory, PermissionService) {
+    	var vm = this;
+    	vm.myGoBack = function() {
+    		$ionicHistory.goBack();
+    	}
     }
 
     angular.module('redmine.permission')
         .controller('PermissionCtrl', PermissionCtrl)
-    PermissionCtrl.$inject = ['PermissionService'];
+    PermissionCtrl.$inject = ['$ionicHistory', 'PermissionService'];
 }());

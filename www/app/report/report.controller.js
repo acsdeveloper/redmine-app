@@ -1,11 +1,14 @@
 
 (function () {
     'use strict';
-    function ReportCtrl(ReportService) {
-
+    function ReportCtrl($ionicHistory, ReportService) {
+    	var vm = this;
+    	vm.myGoBack = function() {
+    		$ionicHistory.goBack();
+    	}
     }
 
     angular.module('redmine.report')
         .controller('ReportCtrl', ReportCtrl)
-    ReportCtrl.$inject = ['ReportService'];
+    ReportCtrl.$inject = ['$ionicHistory', 'ReportService'];
 }());
