@@ -133,3 +133,15 @@
     border-radius: 3px;
 }
 
+.container .permission .booking input {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    border-bottom: 1px solid #e2dede;
+    font-size: 15px;
+}
+
+.container .permission .booking button:last-child {
+    margin-top: 20px;
+}
+

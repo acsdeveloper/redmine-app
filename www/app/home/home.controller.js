@@ -2,7 +2,7 @@
 (function () {
     'use strict';
     function HomeCtrl(HomeService, $filter, $state) {
-            var vm=this;
+            var vm = this;
             vm.islunchbook = true;
             vm.date = $filter('date')(new Date(), "h:mm:ss a");
             console.log(vm.date);
@@ -14,6 +14,10 @@
             }
             vm.booklunch = function() {
                 $state.go("lunch")
+            }
+
+            vm.permission = function() {
+                $state.go("permission");
             }
     }
 
