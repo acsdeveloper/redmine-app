@@ -13,10 +13,10 @@
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-ionic-webview": "^1.1.16",
     "cordova-plugin-network-information": "^2.0.1",
-    "cordova-plugin-networkinterface": "^1.2.0",
     "cordova-plugin-splashscreen": "^4.1.0",
     "cordova-plugin-whitelist": "^1.3.3",
-    "ionic-plugin-keyboard": "^2.2.1"
+    "ionic-plugin-keyboard": "^2.2.1",
+    "wifiwizard": "^0.2.11"
   },
   "cordova": {
     "plugins": {
@@ -26,7 +26,7 @@
       "cordova-plugin-whitelist": {},
       "ionic-plugin-keyboard": {},
       "cordova-plugin-network-information": {},
-      "cordova-plugin-networkinterface": {}
+      "com.pylonproducts.wifiwizard": {}
     },
     "platforms": [
       "android"

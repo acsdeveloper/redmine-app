@@ -21,16 +21,32 @@
                         Office Start Time
                     </div>
                     <div class="col">
-                        {{vm.officeStartTime}}
+                    	{{vm.officeStartTime}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-50">
+                        Day Start Time
+                    </div>
+                    <div class="col">
+                    	<div class="row pad-0">
+                    		<input type="text" ng-model="vm.dayStartTime" placeholder="Enter Time" class="col pad-0">
+                    		<select ng-model="vm.timeZone" class="col col-34 pad-0" ng-change="vm.changeZone()">
+                    			<option value="AM">AM</option>
+                    			<option value="PM">PM</option>
+                    		</select>	
+                    	</div>
                     </div>
                 </div>
 			</div>
 			<div class="booking">
 				<h4>Booking</h4>
-				<input type="text" ng-model="vm.requestTime" placeholder="Enter Request Time" maxlength="2">	
-				<!-- <button class="button button-full button-positive btn-home" ng-disabled="vm.isLate" ng-click="vm.formSubmit()">
+				<input type="text" ng-model="vm.requestTime" placeholder="Enter Request Time">
+				<div style="display:inline-block; width: 40%;">Minutes</div>	
+				<button class="button button-full button-positive btn-home" ng-disabled="vm.isLate" ng-click="vm.submitPermission()">
                     Submit
-                </button> -->
+                </button>
                 <button class="button button-full button-positive btn-home" ng-disabled="vm.isOffice" ng-click="vm.officeClick()">
                     I'm In Office
                 </button>

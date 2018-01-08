@@ -1,16 +1,33 @@
 
 (function () {
     'use strict';
-    function PermissionCtrl($ionicHistory, $filter, NetworkInformation, PermissionService) {
+    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, NetworkInformation, PermissionService) {
     	var vm = this;
 
         vm.isOffice = true;
         vm.userInfo = JSON.parse(localStorage.getItem("authDetails"));
         console.log(vm.userInfo);
         vm.time = vm.userInfo.custom_fields;
+        vm.timeZone = "AM";
         console.log(vm.time);
+        
+        vm.authdata = {
+            "headers"  : {
+                    "Authorization" : "",
+            }
+        }
+
+        vm.data = {
+            "time_entry" : {
+                "project_id": 227,
+                "hours": "0.20",
+                "activity_id": 15,
+                "comments": "permission"
+            }
+        }
+
         angular.forEach(vm.time, function (element) {
-            if(element.id == 40) {
+            if(element.name == "Office Start Time") {
                 vm.officeTime = element;
             }
         })
@@ -29,15 +46,20 @@
             vm.isLate = true;
         }
 
-        if(NetworkInformation.hasNetworkConnection()) {
-            if(NetworkInformation.hasWifiConnection()) {
-              networkinterface.getIPAddress(function (ip) { 
-                console.log(ip);
-              });  
-            }
+        // if(NetworkInformation.hasNetworkConnection()) {
+            
+        // }
+
+        if(NetworkInformation.hasWifiConnection()) {
+              
         }
 
-        vm.latePermission = function () {
+        vm.changeTime = function() {
+
+        }
+
+
+        vm.submitPermission = function () {   
             vm.lateDetail = localStorage.getItem('lateDetails');
             if(vm.lateDetail == null) {
                 console.log(vm.lateDetail);    
@@ -52,27 +74,39 @@
         }
 
         vm.officeClick = function () {
-            vm.officeDetail = localStorage.getItem('officeDetails');
-            if(vm.officeDetail == null) {
-                console.log(vm.officeDetail);
-            } else {
-                alert('you are office');
-            }
-            vm.isLate = true;
-            vm.isOffice = true;
-            var obj = {
-                'today': "entry"
-            }
-            localStorage.setItem('officeDetails', obj);
+            vm.auth = localStorage.getItem("authoptions");
+            $http.defaults.headers.common['Authorization'] = vm.auth;
+            vm.authdata.headers.Authorization = vm.auth;
+            AuthInterceptor.request(vm.authdata);
+            PermissionService.getPermission(vm.data).then(function (resp) {
+                vm.permission();
+            })
         }
 
         vm.myGoBack = function() {
             $ionicHistory.goBack();
         }
 
+        vm.permission = function() {
+            vm.auth = localStorage.getItem("authoptions");
+            $http.defaults.headers.common['Authorization'] = vm.auth;
+            vm.authdata.headers.Authorization = vm.auth;
+            AuthInterceptor.request(vm.authdata);
+            PermissionService.permissionList(vm.userInfo.id).then(function(resp)  {
+                vm.count = resp.total_count;
+                if(vm.count > 0) {
+                    vm.isOffice = true;
+                } else {
+                    vm.isOffice = false;
+                }
+            });
+        }
+
+        vm.permission(); 
+
     }
 
     angular.module('redmine.permission')
         .controller('PermissionCtrl', PermissionCtrl)
-    PermissionCtrl.$inject = ['$ionicHistory', '$filter', 'NetworkInformation', 'PermissionService'];
+    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', 'NetworkInformation', 'PermissionService'];
 }());
