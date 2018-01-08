@@ -9,6 +9,16 @@
                     } else {
                         return false;
                     }
+                },
+                hasWifiConnection: function () {
+                    if(navigator.connection) {
+                       var networkState = navigator.connection.type;
+                       if(networkState == "wifi"){
+                            return true;
+                       } else if (networkState == "none"){
+                            return false;
+                       } 
+                    }
                 }
             };
         });

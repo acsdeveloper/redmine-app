@@ -29,8 +29,12 @@
             vm.isLate = true;
         }
 
-        if(NetworkInformation.hasNetworkConnection() ){
-            console.log('true');
+        if(NetworkInformation.hasNetworkConnection()) {
+            if(NetworkInformation.hasWifiConnection()) {
+              networkinterface.getIPAddress(function (ip) { 
+                console.log(ip);
+              });  
+            }
         }
 
         vm.latePermission = function () {
