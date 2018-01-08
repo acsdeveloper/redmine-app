@@ -8,7 +8,7 @@
                 <div class="input-label">
                     Month
                 </div>
-                <select ng-model="vm.monthsvalue" ng-change="vm.getreports()" ng-options="vm.months.indexOf(month) as month for (idx, month) in vm.months">
+                <select ng-model="vm.monthsvalue" ng-options="vm.months.indexOf(month) as month for (idx, month) in vm.months">
                 </select>
             </label>
 
@@ -18,7 +18,7 @@
                 <div class="input-label">
                     Year
                 </div>
-                <select ng-model="vm.yearvalue"  ng-change="vm.getreports()" ng-options="year for year in vm.years">
+                <select ng-model="vm.yearvalue" ng-options="year for year in vm.years">
                 </select>
             </label>
 
@@ -32,4 +32,9 @@
                 </div>
         </div>
     </ion-content>
+    <ion-footer-bar class="redmine-footer login">
+            <button class="button button-full submit-button" ng-click="vm.getreports()">
+                Submit
+            </button>
+        </ion-footer-bar>
 </ion-view>

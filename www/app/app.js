@@ -12,8 +12,7 @@
       'redmine.lunch',
       'redmine.office',
       'redmine.permission',
-      'redmine.report',
-      'redmine.network'
+      'redmine.report'
     ])
     .run(function($ionicPlatform, $rootScope) {
       $ionicPlatform.ready(function() {
