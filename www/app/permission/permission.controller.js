@@ -3,7 +3,7 @@
     'use strict';
     function PermissionCtrl($ionicHistory, $filter, NetworkInformation, PermissionService) {
     	var vm = this;
-        
+
         vm.isOffice = true;
         vm.userInfo = JSON.parse(localStorage.getItem("authDetails"));
         console.log(vm.userInfo);
