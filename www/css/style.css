@@ -141,6 +141,32 @@
     border-radius: 3px;
 }
 
+.member_info input {
+    border-bottom: 1px solid #e2dede;
+    width: 100%;
+    padding: 0;
+    height: 23px;
+    box-sizing: border-box;
+}
+
+.permission .booking input {
+    width: 50%;
+    border-bottom: 1px solid #e2dede;
+    font-size: 15px;
+    margin-left: 35px;
+    margin-right: 12px;
+}
+
+.permission .member_info select {
+    margin-left: 5px;
+}
+
+.permission .error-msg {
+    margin-top: 8px;
+    text-align: center;
+    color: #bf5757;
+    font-size: 12px;
+}
 
 /** report screen **/
 
@@ -151,4 +177,8 @@
 
 .message {
     padding: 15px 0px;
+}
+
+.pad-0 {
+    padding: 0;
 }

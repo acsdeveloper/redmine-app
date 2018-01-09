@@ -1,7 +1,7 @@
 
 (function () {
     'use strict';
-    function HomeCtrl(HomeService, $filter, $state) {
+    function HomeCtrl(HomeService, $filter, $state,$cordovaToast) {
         var vm = this;
         vm.islunchbook = true;
         vm.date = $filter('date')(new Date(), "h:mm:ss a");
@@ -32,6 +32,11 @@
             WifiWizard.listNetworks(function (w) {
                 console.log(w)
             }, vm.fail);
+            $cordovaToast.showLongBottom('Here is a message').then(function(success) {
+                // success
+              }, function (error) {
+                // error
+              });
         });
 
         vm.fail = function () {
@@ -41,5 +46,5 @@
 
     angular.module('redmine.home')
         .controller('HomeCtrl', HomeCtrl)
-    HomeCtrl.$inject = ['HomeService', '$filter', '$state'];
+    HomeCtrl.$inject = ['HomeService', '$filter', '$state','$cordovaToast'];
 }());

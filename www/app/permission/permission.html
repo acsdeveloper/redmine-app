@@ -12,25 +12,47 @@
 
 				<div class="row">
                     <div class="col">
-                        {{vm.getuserDetails.firstname}} {{vm.getuserDetails.lastname}}
+                        {{vm.userInfo.firstname}} {{vm.userInfo.lastname}}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col col-50">
-                        Shift Timing
+                        Office Start Time
                     </div>
+                    <div class="col">
+                    	{{vm.officeStartTime}}
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col col-50">
-                        8.30 am to 5.30 pm
+                        Day Start Time
+                    </div>
+                    <div class="col">
+                    	<div class="row pad-0">
+                    		<input type="time" class="col pad-0" ng-model="vm.dayStartTime" placeholder="Enter Time" ng-blur="vm.enterTime()">
+                    		<!-- <select ng-model="vm.timeZone" class="col col-34 pad-0" ng-change="vm.changeZone()">
+                    			<option value="AM">AM</option>
+                    			<option value="PM">PM</option>
+                            </select>	 -->
+                            
+                    	</div>
+                    	<!-- <div ng-show="!vm.isTimeValid" class="error-msg">Time is invalid (eg. 08:30 )</div> -->
                     </div>
                 </div>
 			</div>
 			<div class="booking">
-				<h4>Booking </h4>
-				<button class="button button-full button-positive btn-home">
-                    Late
+				<h4>Booking</h4>
+				<div class="row pad-0">
+                   <input type="number" class="pad-0" ng-model="vm.requestTime" placeholder="Enter Request Time" ng-blur="vm.enterMinutes()">
+                    <div class="col">Minutes</div>	
+                </div>
+                <div ng-show="!vm.isMinutesValid" class="error-msg">Minutes is invalid</div>	
+				<button class="button button-full button-positive btn-home" ng-disabled="vm.isLate" ng-click="vm.submitPermission()">
+                    Submit
                 </button>
-                <button class="button button-full button-positive btn-home">
+                <button class="button button-full button-positive btn-home" ng-disabled="vm.isOffice" ng-click="vm.officeClick()">
                     I'm In Office
                 </button>
 			</div>

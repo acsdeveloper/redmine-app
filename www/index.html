@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
@@ -27,6 +28,7 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
     <script src="lib/ng-cordova.min.js"></script>
     <script src="js/WifiWizard.js"></script>
@@ -39,6 +41,8 @@
     <!-- your core's js -->
     <script src="app/core/service.js"></script>
     <script src="app/core/userservice.js"></script>
+    <script src="app/core/moment.js"></script>
+    <script src="app/core/network.js"></script>
 
     <script src="app/login/login.service.js"></script>
     <script src="app/login/login.controller.js"></script>
