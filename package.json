@@ -16,7 +16,8 @@
     "cordova-plugin-splashscreen": "^4.1.0",
     "cordova-plugin-whitelist": "^1.3.3",
     "ionic-plugin-keyboard": "^2.2.1",
-    "wifiwizard": "^0.2.11"
+    "wifiwizard": "^0.2.11",
+    "com.pylonproducts.wifiwizard": "~0.2.11"
   },
   "cordova": {
     "plugins": {

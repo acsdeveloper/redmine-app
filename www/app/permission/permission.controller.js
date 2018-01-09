@@ -9,7 +9,8 @@
         console.log(vm.userInfo);
         vm.time = vm.userInfo.custom_fields;
         vm.timeZone = "AM";
-        console.log(vm.time);
+        vm.isTimeValid = true;
+        vm.isMinutesValid = true;  
         
         vm.authdata = {
             "headers"  : {
@@ -54,11 +55,7 @@
               
         }
 
-        vm.changeTime = function() {
-
-        }
-
-
+    
         vm.submitPermission = function () {   
             vm.lateDetail = localStorage.getItem('lateDetails');
             if(vm.lateDetail == null) {
@@ -100,6 +97,24 @@
                     vm.isOffice = false;
                 }
             });
+        }
+
+        vm.enterMinutes = function() {
+            var regx = /^([1-5]?[1-9])$/.test(vm.requestTime);
+            if(regx) {
+                vm.isMinutesValid = true;
+            } else {
+                vm.isMinutesValid = false;  
+            }
+        }
+
+        vm.enterTime = function() {
+            var regx = /^([0-1][0-9]):([0-5][0-9])$/.test(vm.dayStartTime);
+            if(regx) {
+                vm.isTimeValid = true;
+            } else {
+                vm.isTimeValid = false;
+            }
         }
 
         vm.permission(); 
