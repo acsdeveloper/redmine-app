@@ -30,24 +30,18 @@
                         Day Start Time
                     </div>
                     <div class="col">
-                    	<div class="row pad-0">
-                    		<input type="text" class="col pad-0" ng-model="vm.dayStartTime" placeholder="Enter Time" ng-blur="vm.enterTime()">
-                    		<select ng-model="vm.timeZone" class="col col-34 pad-0" ng-change="vm.changeZone()">
-                    			<option value="AM">AM</option>
-                    			<option value="PM">PM</option>
-                    		</select>	
-                    	</div>
-                    	<div ng-show="!vm.isTimeValid" class="error-msg">Time is invalid (eg. 08:30 )</div>
+                    	<input type="time" class="col pad-0" ng-model="vm.dayStartTime" placeholder="Enter Time" ng-change="vm.enterTime()">
+                    	<div ng-show="!vm.isTimeValid" class="error-msg">Choose day start time</div>
                     </div>
                 </div>
 			</div>
 			<div class="booking">
-				<h4>Booking</h4>
+				<h4>Permission Booking</h4>
 				<div class="row pad-0">
-                   <input type="number" class="pad-0" ng-model="vm.requestTime" placeholder="Enter Request Time" ng-blur="vm.enterMinutes()">
+                   <input type="number" class="pad-0" ng-model="vm.requestTime" placeholder="Enter Permission Time" ng-blur="vm.enterMinutes()">
                     <div class="col">Minutes</div>	
                 </div>
-                <div ng-show="!vm.isMinutesValid" class="error-msg">Minutes is invalid</div>	
+                <div ng-show="!vm.isMinutesValid" class="error-msg">Book between below 1 hour</div>	
 				<button class="button button-full button-positive btn-home" ng-disabled="vm.isLate" ng-click="vm.submitPermission()">
                     Submit
                 </button>
