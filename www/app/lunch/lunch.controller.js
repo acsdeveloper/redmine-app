@@ -1,7 +1,7 @@
 
 (function () {
     'use strict';
-    function LunchCtrl(LunchService, $http,AuthInterceptor) {
+    function LunchCtrl(LunchService, $http,AuthInterceptor,$ionicHistory) {
         var vm=this;
         vm.lunchbooked_id  ="";
         vm.lunchoptions = "Yes";
@@ -10,7 +10,13 @@
                 "project_id" : 342,
                 "hours"  : 0.01,
                 "activity_id" : 16,
-                "comments"  : "I need lunch today"
+                "comments"  : "I need lunch today",
+                "custom_fields" : [
+                    {
+                        "id" : 39,
+                        "value" : "1"
+                    }
+                ]
             }
         }
         vm.getUserdetails = JSON.parse(localStorage.getItem("authDetails"));
@@ -74,11 +80,13 @@
         }
 
         vm.lunchbooking();
-
+        vm.myGoBack = function() {
+    		$ionicHistory.goBack();
+    	}
                 
     }
 
     angular.module('redmine.home')
         .controller('LunchCtrl', LunchCtrl)
-    LunchCtrl.$inject = ['LunchService','$http','AuthInterceptor'];
+    LunchCtrl.$inject = ['LunchService','$http','AuthInterceptor','$ionicHistory'];
 }());

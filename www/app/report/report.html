@@ -1,7 +1,10 @@
 <ion-view view-title="Report" class="form-container">
-    <header class="bar bar-header bar-stable">
+    <ion-header-bar align-title="center" class="bar-stable">
+        <div class="buttons">
+          <button class="button button-icon ion-chevron-left" ng-click="vm.myGoBack()"></button>
+        </div>
         <h1 class="title">Monthly Lunch Report</h1>
-    </header>
+  </ion-header-bar>
     <ion-content class="lunch-screen" overflow-scroll=”false”>
         <div class="list">
             <label class="item item-input item-select">

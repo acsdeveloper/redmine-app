@@ -1,7 +1,10 @@
 <ion-view view-title="Lunch" class="form-container">
-    <header class="bar bar-header bar-stable">
+    <ion-header-bar align-title="center" class="bar-stable">
+        <div class="buttons">
+          <button class="button button-icon ion-chevron-left" ng-click="vm.myGoBack()"></button>
+        </div>
         <h1 class="title">Lunch Booking</h1>
-    </header>
+  </ion-header-bar>
     <ion-content class="lunch-screen" overflow-scroll=”false”>
         <div class="list">
             <!-- <label class="item item-input item-select">
@@ -14,12 +17,14 @@
                 </select>
             </label> -->
             <div class="message">
-                Today's Lunch Count   :    {{vm.totay_count}}
+                Today's Lunch Count   :    {{vm.totay_count || 0}}
             </div>
         </div>
         <div class="list">
             <div class="lunch_booked">
                     <h3>{{vm.lunch_message}}</h3>
+                    <input type="number" name="input" ng-model="example.value"
+                    min="0" max="99" required>
             </div>
         </div>
     </ion-content>

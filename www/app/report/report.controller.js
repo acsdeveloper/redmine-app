@@ -1,7 +1,7 @@
 
 (function () {
     'use strict';
-    function ReportCtrl(ReportService,$http,AuthInterceptor) {
+    function ReportCtrl(ReportService,$http,AuthInterceptor,$ionicHistory) {
         var vm = this;
         vm.years = [];
         vm.date = new Date();
@@ -50,9 +50,12 @@
         }
         
         vm.getreports();
+        vm.myGoBack = function() {
+    		$ionicHistory.goBack();
+    	}
     }
 
     angular.module('redmine.report')
         .controller('ReportCtrl', ReportCtrl)
-    ReportCtrl.$inject = ['ReportService','$http','AuthInterceptor'];
+    ReportCtrl.$inject = ['ReportService','$http','AuthInterceptor','$ionicHistory'];
 }());

@@ -15,10 +15,11 @@
                         </div>
                         <input type="text" ng-model="vm.username" value="" placeholder="Username" ng-class="vm.isUsernameValid? '':'error'" ng-blur="vm.validateUsername()">
                         <div ng-show="!vm.isUsernameValid" class="error-msg">Username is invalid</div>
-
+                        
                         <input type="password" ng-model="vm.password" value="" placeholder="Password" ng-class="vm.isPasswordValid? '':'error'" ng-blur="vm.validatePassword()">
                         <div ng-show="!vm.isPasswordValid" class="error-msg">Password is invalid</div>
                     </div>
+                    
                 </div>
             </div>
         </ion-content>
