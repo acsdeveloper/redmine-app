@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angular.module('redmine.network', [])
+    angular.module('redmine.connection', [])
         .factory('NetworkInformation', function ($cordovaNetwork) {
             return {
                 hasNetworkConnection: function () {
@@ -14,14 +14,13 @@
                     }
                 },
                 hasWifiConnection: function () {
-                    if (navigator.connection) {
-                        var networkState = navigator.connection.type;
-                        console.log(networkState);
-                        if (networkState == "wifi") {
+                    if(navigator.connection) {
+                       var networkState = navigator.connection.type;
+                       if(networkState == "wifi"){
                             return true;
-                        } else {
+                       } else if (networkState == "none"){
                             return false;
-                        }
+                       } 
                     }
                 }
             };

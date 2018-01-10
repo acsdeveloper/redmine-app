@@ -32,15 +32,10 @@
             WifiWizard.listNetworks(function (w) {
                 console.log(w)
             }, vm.fail);
-            $cordovaToast.showLongBottom('Here is a message').then(function(success) {
-                // success
-              }, function (error) {
-                // error
-              });
         });
 
         vm.fail = function () {
-            console.log("w")
+            console.log("error")
         }
     }
 

@@ -81,6 +81,31 @@
 
                     return deferred.promise;
                 },
+                put: function (url, postData, callback) {
+                    var deferred = $q.defer();
+                    var cb = callback || angular.noop;
+                    $http.defaults.headers.post["Content-Type"] = "application/json";
+                    $http.put(url, postData).success(function (response, status) {
+                        if (status === 200 || status === 201)  {
+                            deferred.resolve(response);
+                            return cb();
+                        } else {
+                            deferred.reject(response.message);
+                            return cb(response);
+                        }
+                    }).error(function (err) {
+                        deferred.reject();
+                        $ionicPopup.alert({
+                            title: 'Error',
+                            template: err.message
+                        }).then(function (res) {
+                            console.log(res);
+                        });
+                        return cb(err);
+                    }.bind(this));
+
+                    return deferred.promise;
+                },
                 delete: function (url, postData, callback) {
                     var deferred = $q.defer();
                     var cb = callback || angular.noop;

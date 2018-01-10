@@ -5,10 +5,18 @@
 		var vm = this;
 		vm.deferred = $q.defer();
 		vm.date = $filter('date')(new Date(), "yyyy-MM-dd");
-
-		vm.getPermission = function(options) {
+		
+		vm.addPermission = function(options) {
 			vm.url = "https://pm.agilecyber.co.uk/time_entries.json";
             return Request.post(vm.url,options).then(function (resp) {
+                vm.deferred.resolve(resp);
+                return resp;
+            });
+		}
+
+		vm.updatePermission = function(id, options) {
+			vm.url = "https://pm.agilecyber.co.uk/time_entries/"+ id +".json";
+            return Request.put(vm.url,options).then(function (resp) {
                 vm.deferred.resolve(resp);
                 return resp;
             });

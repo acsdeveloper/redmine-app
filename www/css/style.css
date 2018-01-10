@@ -147,6 +147,7 @@
     padding: 0;
     height: 23px;
     box-sizing: border-box;
+    margin-left: -4px;
 }
 
 .permission .booking input {
@@ -167,7 +168,10 @@
     color: #bf5757;
     font-size: 12px;
 }
-
+.mins_label
+{
+    align-self: flex-end;
+}
 /** report screen **/
 
 .summary {
@@ -181,4 +185,13 @@
 
 .pad-0 {
     padding: 0;
+}
+
+.platform-android input[type="time"] {
+    padding-top: 4px;
+    background: none;
+}
+
+.bar button.button-icon:before {
+    font-size: 21px !important; 
 }
