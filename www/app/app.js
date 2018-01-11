@@ -37,7 +37,7 @@
         };
 
         var todayDate = $filter('date')(new Date(), "dd-MM-yyyy");
-        
+        console.log(todayDate);
 
         $ionicPlatform.registerBackButtonAction(handleBackButton, 999);
           $rootScope.$ionicGoBack = function () {
