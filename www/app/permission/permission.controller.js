@@ -148,9 +148,9 @@
                     vm.permissiontime = localStorage.getItem("permission_time_09-01-2018");
                 }
 
-                if(vm.permissiontime) {
-                   vm.isPermissionValid = false;     
-                }
+                // if(vm.permissiontime) {
+                //    vm.isPermissionValid = false;     
+                // }
                 
                 if (localStorage.getItem('OfficeEntry_09-08-2017')) {
                     vm.isLate = true;
