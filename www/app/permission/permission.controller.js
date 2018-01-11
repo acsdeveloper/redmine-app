@@ -163,11 +163,14 @@
                     vm.des_comments = localStorage.getItem("permission_description_09-01-2018");
                     vm.permissiontime = localStorage.getItem("permission_time_09-01-2018");
                 }
-                // vm.current = vm.list.filter(function(data) {
-                //     return data.id = vm.entry_id
-                // })
-                if (vm.count > 0) {
-                    vm.isOffice = false;
+
+                // if(vm.permissiontime) {
+                //    vm.isPermissionValid = false;     
+                // }
+                
+                if (localStorage.getItem('OfficeEntry_09-08-2017')) {
+                    vm.isLate = true;
+                    vm.isOffice = true;
                 } else {
                     vm.isOffice = true;
                 }
