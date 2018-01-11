@@ -4,13 +4,11 @@
     function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, NetworkInformation, PermissionService) {
         var vm = this;
 
-        vm.isLate = true;
         vm.isOffice = true;
         vm.userInfo = JSON.parse(localStorage.getItem("authDetails"));
         vm.time = vm.userInfo.custom_fields;
         vm.isTimeValid = true;
         vm.isMinutesValid = true;
-        vm.isPermissionValid = true;
         vm.wifilist = [];
         vm.currentWifi = "";
         vm.authdata = {
@@ -19,17 +17,21 @@
             }
         }
 
+        vm.data = {
+            "time_entry": {
+                "project_id": 227,
+                "hours": "0.20",
+                "activity_id": 15,
+                "comments": "permission"
+            }
+        }
+
         angular.forEach(vm.time, function (element) {
             if (element.name == "Office Start Time") {
                 vm.officeTime = element;
             }
         })
-        
-        vm.convertTime = new Date(vm.officeTime.value + " UTC");
-        vm.standardTime = vm.convertTime.toString();
-        vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
 
-<<<<<<< HEAD
         vm.convertTime = new Date(vm.officeTime.value + " UTC");
         vm.standardTime = vm.convertTime.toString();
         vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
@@ -46,91 +48,83 @@
         } else {
             vm.isLate = true;
         }
-=======
-        vm.dayStartTime = new Date(vm.standardTime);
->>>>>>> 926864238fbee315c4b4c37f78d16c266ce75851
 
-        WifiWizard.listNetworks(function (w) {
-            vm.wifilist = w.map(function(element, i){
-            return JSON.parse(element);
-        });
+        // if(NetworkInformation.hasNetworkConnection()) {
+
+        // }
+        vm.isLate = false;
+        // if(NetworkInformation.hasWifiConnection()) {
+
+        // }
+
+        WifiWizard.getScanResults(function (w) {
+            vm.wifilist = w;
         }, vm.fail);
-        
-        // WifiWizard.getScanResults(function (w) {
-        //     vm.wifilist = w;
-        // }, vm.fail);
 
         WifiWizard.getCurrentSSID(function (w) {
             vm.currentWifi = JSON.parse(w);
         }, vm.fail);
 
-        
+
         vm.submitPermission = function () {
             vm.data = {};
-            if(!vm.isNull(vm.dayStartTime)) {
-                if(!vm.isNull(vm.requestTime) && vm.isMinutesValid) {
-                    if (vm.count == 0) {
-                        vm.data = {
-                            "time_entry": {
-                                "project_id": 227,
-                                "hours": vm.requestTime + "min",
-                                "activity_id": 15,
-                                "comments": "Permission for " + vm.requestTime + " Minutes",
-                                "custom_fields": [
-                                    {
-                                        "id": 7,
-                                        "value": "Permission for " + vm.requestTime + " Minutes. "
-                                    }
-                                ]
-                            }
+            if (vm.isNull(vm.dayStartTime)) {
+                vm.isTimeValid = false;
+            } else if (vm.isNull(vm.requestTime)) {
+                vm.isMinutesValid = false;
+            } else {
+                if (vm.count == 0) {
+                    vm.data = {
+                        "time_entry": {
+                            "project_id": 227,
+                            "hours": vm.requestTime + "min",
+                            "activity_id": 15,
+                            "comments": "Permission for " + vm.requestTime + " Minutes",
+                            "custom_fields": [
+                                {
+                                    "id": 7,
+                                    "value": "Permission for " + vm.requestTime + " Minutes"
+                                }
+                            ]
                         }
-                        vm.addPermission(vm.data);
-                    } else if (vm.count > 0) {
-                        vm.permission_description = vm.des_comments;
-                        console.log(vm.permission_description);
-                        vm.data = {
-                            "time_entry": {
-                                "project_id": 227,
-                                "hours": vm.requestTime + "min",
-                                "activity_id": 15,
-                                "comments": "Permission for " + vm.requestTime + " Minutes",
-                                "custom_fields": [
-                                    {
-                                        "id": 7,
-                                        "value": JSON.parse(vm.des_comments)
-                                    }
-                                ]
-                            }
+                    }
+                    vm.addPermission(vm.data);
+                } else if (vm.count > 0) {
+                    vm.permission_description = vm.des_comments;
+                    console.log(vm.permission_description);
+                    vm.data = {
+                        "time_entry": {
+                            "project_id": 227,
+                            "hours": vm.requestTime + "min",
+                            "activity_id": 15,
+                            "comments": "Update Permission for " + vm.requestTime + " Minutes",
+                            "custom_fields": [
+                                {
+                                    "id": 7,
+                                    "value": vm.des_comments
+                                }
+                            ]
                         }
-<<<<<<< HEAD
                     }
                     vm.updatePermission(vm.entry_id, vm.data);
                 }
-=======
-                        vm.updatePermission(vm.entry_id, vm.data);
-                    }           
-                } else {
-                    vm.isMinutesValid = false;
-                }
-            } else {
-                vm.isTimeValid = false;
->>>>>>> 926864238fbee315c4b4c37f78d16c266ce75851
             }
-
             localStorage.setItem("permission_time_09-01-2018", vm.requestTime);
         }
 
+        
         vm.addPermission = function (data) {
             vm.auth = localStorage.getItem("authoptions");
             $http.defaults.headers.common['Authorization'] = vm.auth;
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.addPermission(data).then(function (resp) {
+                console.log(resp.time_entry.id);
+                console.log(resp.time_entry);
                 vm.permission_description = resp.time_entry.custom_fields;
                 vm.permission_description = vm.permission_description.filter(function (des) {
                     return des.id == 7;
                 });
-                vm.isPermissionValid = false;
                 console.log(vm.permission_description[0].value)
                 localStorage.setItem("permission_description_09-01-2018", JSON.stringify(vm.permission_description[0].value));
                 //vm.new_entry = resp.time_entry;
@@ -141,15 +135,12 @@
             })
         }
 
-        vm.updatePermission = function (Id, data, Office) {
+        vm.updatePermission = function (Id, data) {
             vm.auth = localStorage.getItem("authoptions");
             $http.defaults.headers.common['Authorization'] = vm.auth;
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.updatePermission(Id, data).then(function (resp) {
-                if(Office) {
-                    localStorage.setItem('OfficeEntry_09-08-2017', Office);
-                }
                 vm.permission();
                 alert("Permission Updated");
             })
@@ -166,29 +157,21 @@
             AuthInterceptor.request(vm.authdata);
             PermissionService.permissionList(vm.userInfo.id).then(function (resp) {
                 vm.count = resp.total_count;
+                console.log(resp);
                 vm.list = resp.time_entries;
                 if (localStorage.getItem("permission_09-01-2018")) {
                     vm.entry_id = localStorage.getItem("permission_09-01-2018");
                     vm.des_comments = localStorage.getItem("permission_description_09-01-2018");
                     vm.permissiontime = localStorage.getItem("permission_time_09-01-2018");
                 }
-
-                if(vm.permissiontime) {
-                   vm.isPermissionValid = false;     
-                }
-                
-                if (localStorage.getItem('OfficeEntry_09-08-2017')) {
-                    vm.isLate = true;
-                    vm.isOffice = true;
+                // vm.current = vm.list.filter(function(data) {
+                //     return data.id = vm.entry_id
+                // })
+                if (vm.count > 0) {
+                    vm.isOffice = false;
                 } else {
-                    if (vm.count > 0) {
-                        vm.isOffice = false;
-                    } else {
-                        vm.isOffice = true;
-                    }
-                    vm.isLate = false;
+                    vm.isOffice = true;
                 }
-                    
             });
         }
 
@@ -216,37 +199,32 @@
         vm.permission();
 
         vm.officeClick = function () {
-            vm.inOfficeTime = $filter('date')(new Date(), "h:mm a");
-            vm.startTime = moment(vm.dayStartTime, "HH:mm a");
-            vm.endTime = moment(vm.inOfficeTime, "HH:mm a");
-            vm.minutes = vm.endTime.diff(vm.startTime, 'minutes');
-            
+            console.log(NetworkInformation.hasWifiConnection());
             if (NetworkInformation.hasWifiConnection()) {
-                
+                console.log(vm.wifilist);
                 vm.officeWifi = vm.wifilist.filter(function (wifi) {
-                    return wifi == "FTTH" || wifi == "FTTH2"
+                    return wifi.SSID == "FTTH" || wifi.SSID == "FTTH2"
                 }).filter(function (data) {
-                    return data == vm.currentWifi;
+                    return data.SSID == vm.currentWifi;
                 }).length;
-                
                 if (vm.officeWifi) {
                     vm.data = {
                         "time_entry": {
                             "project_id": 227,
-                            "hours": vm.minutes + "min",
+                            "hours": vm.requestTime + "min",
                             "activity_id": 15,
-                            "comments": "Permission for " + vm.permissiontime + " Minutes",
+                            "comments": "Update Permission for " + vm.requestTime + " Minutes",
                             "custom_fields": [
                                 {
                                     "id": 7,
-                                    "value": "Permission for " + vm.permissiontime + " Minutes. In Office Time " + vm.inOfficeTime
+                                    "value": vm.des_comments
                                 }
                             ]
                         }
                     }
-                    vm.clickOffice = true;
-                    vm.updatePermission(vm.entry_id, vm.data, vm.clickOffice);
-                    
+                    console.log(vm.entry_id)
+                    console.log(vm.data)
+                    // vm.updatePermission(vm.entry_id, vm.data);
                 } else {
                     alert('check your wifi-connection and try again')
                 }
