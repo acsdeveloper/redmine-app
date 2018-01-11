@@ -32,16 +32,16 @@
             }
         })
 
-        vm.officeStartTime = $filter('date')(new Date(vm.officeTime.value), "h:mm a");
-        vm.officeEntryTime = $filter('date')(new Date(), "h:mm a");
-        console.log(vm.officeTime.value, vm.officeStartTime)
+        vm.convertTime = new Date(vm.officeTime.value + " UTC");
+        vm.standardTime = vm.convertTime.toString();
+        vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
+        vm.dayStartTime = new Date(vm.standardTime);
 
         vm.startTime = moment(vm.officeStartTime, "HH:mm a");
         vm.endTime = moment(vm.officeEntryTime, "HH:mm a");
         vm.hours = vm.endTime.diff(vm.startTime, 'hours');
         vm.minutes = vm.endTime.diff(vm.startTime, 'minutes');
 
-        vm.dayStartTime = new Date(vm.officeTime.value);
 
         if (vm.minutes >= 0 && vm.minutes <= 59 && vm.hours == 0) {
             vm.isLate = false;
@@ -107,7 +107,7 @@
                         }
                     }
                     vm.updatePermission(vm.entry_id, vm.data);
-                }   
+                }
             }
             localStorage.setItem("permission_time_09-01-2018", vm.requestTime);
         }
@@ -128,7 +128,7 @@
                 localStorage.setItem("permission_description_09-01-2018", JSON.stringify(vm.permission_description[0].value));
                 //vm.new_entry = resp.time_entry;
                 localStorage.setItem("permission_09-01-2018", JSON.stringify(resp.time_entry.id));
-                
+
                 alert("Permission Created");
                 vm.permission();
             })
