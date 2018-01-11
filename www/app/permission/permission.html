@@ -34,7 +34,7 @@
                     	<div ng-show="!vm.isTimeValid" class="error-msg">Choose day start time</div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" ng-show="!vm.isPermissionValid">
                     <div class="col col-50">
                         Permission Time
                     </div>

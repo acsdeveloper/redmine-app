@@ -3,133 +3,179 @@
 (function () {
     'use strict';
     angular.module('redmine.service', [])
-        .factory("Request", function ($http, $q,$ionicPopup) {
+        .factory("Request", function ($http, $q,$ionicPopup, NetworkInformation) {
             return {
                 get: function (url, callback) {
                     var deferred = $q.defer();
-                    var cb = callback || angular.noop;
-                    $http.get(url).success(function (response, status) {
-                        if (status === 200) {
-                            deferred.resolve(response);
-                            return cb(response);
-                        } else {
-                         
-                            deferred.reject(response.message);
-                            return cb(response);
-                        }
-                    }).error(function (err) {
-                       
-                        //deferred.reject("Timeout");
+                    if (NetworkInformation.hasNetworkConnection()) {
+                        var cb = callback || angular.noop;
+                        $http.get(url).success(function (response, status) {
+                            if (status === 200) {
+                                deferred.resolve(response);
+                                return cb(response);
+                            } else {
+                             
+                                deferred.reject(response.message);
+                                return cb(response);
+                            }
+                        }).error(function (err) {
+                           
+                            //deferred.reject("Timeout");
+                            $ionicPopup.alert({
+                                title: 'Error',
+                                template: err.message
+                            }).then(function (res) {
+                                console.log(res);
+                                // do nothing
+                            });
+                            return cb(err);
+                        }.bind(this));
+                    } else {
+                        deferred.reject("No Internet Connection");
                         $ionicPopup.alert({
-                            title: 'Error',
-                            template: err.message
+                            title: 'No Internet',
+                            template: 'Please check your device internet connection'
                         }).then(function (res) {
-                            console.log(res);
-                            // do nothing
+                            
                         });
-                        return cb(err);
-                    }.bind(this));
+                    }    
                     return deferred.promise;
                 },
                 post: function (url, postData, callback) {
                     var deferred = $q.defer();
-                    var cb = callback || angular.noop;
-                    $http.defaults.headers.post["Content-Type"] = "application/json";
-                    $http.post(url, postData).success(function (response, status) {
-                        if (status === 200 || status === 201)  {
-                            deferred.resolve(response);
-                            return cb();
-                        } else {
-                            deferred.reject(response.message);
-                            return cb(response);
-                        }
-                    }).error(function (err) {
-                        deferred.reject();
+                    if (NetworkInformation.hasNetworkConnection()) {
+                        var cb = callback || angular.noop;
+                        $http.defaults.headers.post["Content-Type"] = "application/json";
+                        $http.post(url, postData).success(function (response, status) {
+                            if (status === 200 || status === 201)  {
+                                deferred.resolve(response);
+                                return cb();
+                            } else {
+                                deferred.reject(response.message);
+                                return cb(response);
+                            }
+                        }).error(function (err) {
+                            deferred.reject();
+                            $ionicPopup.alert({
+                                title: 'Error',
+                                template: err.message
+                            }).then(function (res) {
+                                console.log(res);
+                            });
+                            return cb(err);
+                        }.bind(this));
+                    } else {
+                        deferred.reject("No Internet Connection");
                         $ionicPopup.alert({
-                            title: 'Error',
-                            template: err.message
+                            title: 'No Internet',
+                            template: 'Please check your device internet connection'
                         }).then(function (res) {
-                            console.log(res);
+                            
                         });
-                        return cb(err);
-                    }.bind(this));
-
+                    }    
                     return deferred.promise;
                 },
                 patch: function (url, postData, callback) {
                     var deferred = $q.defer();
-                    var cb = callback || angular.noop;
-                    $http.defaults.headers.post["Content-Type"] = "application/json";
-                    $http.patch(url, postData).success(function (response, status) {
-                        if (status === 200) {
-                            deferred.resolve(response);
-                            return cb();
-                        } else {
-                            deferred.reject(response.message);
-                            return cb(response);
-                        }
-                    }).error(function (err) {
-                        deferred.reject();
+                    if (NetworkInformation.hasNetworkConnection()) {
+                        var cb = callback || angular.noop;
+                        $http.defaults.headers.post["Content-Type"] = "application/json";
+                        $http.patch(url, postData).success(function (response, status) {
+                            if (status === 200) {
+                                deferred.resolve(response);
+                                return cb();
+                            } else {
+                                deferred.reject(response.message);
+                                return cb(response);
+                            }
+                        }).error(function (err) {
+                            deferred.reject();
+                            $ionicPopup.alert({
+                                title: 'Error',
+                                template: err.message
+                            }).then(function (res) {
+                                // do nothing
+                            });
+                            return cb(err);
+                        }.bind(this));
+                    } else {
+                        deferred.reject("No Internet Connection");
                         $ionicPopup.alert({
-                            title: 'Error',
-                            template: err.message
+                            title: 'No Internet',
+                            template: 'Please check your device internet connection'
                         }).then(function (res) {
-                            // do nothing
+                            
                         });
-                        return cb(err);
-                    }.bind(this));
-
+                    }    
                     return deferred.promise;
                 },
                 put: function (url, postData, callback) {
                     var deferred = $q.defer();
-                    var cb = callback || angular.noop;
-                    $http.defaults.headers.post["Content-Type"] = "application/json";
-                    $http.put(url, postData).success(function (response, status) {
-                        if (status === 200 || status === 201)  {
-                            deferred.resolve(response);
-                            return cb();
-                        } else {
-                            deferred.reject(response.message);
-                            return cb(response);
-                        }
-                    }).error(function (err) {
-                        deferred.reject();
+                    if (NetworkInformation.hasNetworkConnection()) {
+                        var cb = callback || angular.noop;
+                        $http.defaults.headers.post["Content-Type"] = "application/json";
+                        $http.put(url, postData).success(function (response, status) {
+                            if (status === 200 || status === 201)  {
+                                deferred.resolve(response);
+                                return cb();
+                            } else {
+                                deferred.reject(response.message);
+                                return cb(response);
+                            }
+                        }).error(function (err) {
+                            deferred.reject();
+                            $ionicPopup.alert({
+                                title: 'Error',
+                                template: err.message
+                            }).then(function (res) {
+                                console.log(res);
+                            });
+                            return cb(err);
+                        }.bind(this));
+                    } else {
+                        deferred.reject("No Internet Connection");
                         $ionicPopup.alert({
-                            title: 'Error',
-                            template: err.message
+                            title: 'No Internet',
+                            template: 'Please check your device internet connection'
                         }).then(function (res) {
-                            console.log(res);
+                            
                         });
-                        return cb(err);
-                    }.bind(this));
-
+                    }   
                     return deferred.promise;
                 },
                 delete: function (url, postData, callback) {
                     var deferred = $q.defer();
-                    var cb = callback || angular.noop;
-                    $http.defaults.headers.post["Content-Type"] = "application/json";
-            
-                    $http.delete(url).success(function (response, status) {
-                        if (status === 200 || status === 201) {
-                            deferred.resolve(response);
-                            return cb();
-                        } else {
-                            deferred.reject(response.message);
-                            return cb(response);
-                        }
-                    }).error(function (err) {
-                        //deferred.reject("Timeout");
+                    if (NetworkInformation.hasNetworkConnection()) {
+                        var cb = callback || angular.noop;
+                        $http.defaults.headers.post["Content-Type"] = "application/json";
+                
+                        $http.delete(url).success(function (response, status) {
+                            if (status === 200 || status === 201) {
+                                deferred.resolve(response);
+                                return cb();
+                            } else {
+                                deferred.reject(response.message);
+                                return cb(response);
+                            }
+                        }).error(function (err) {
+                            //deferred.reject("Timeout");
+                            $ionicPopup.alert({
+                                title: 'Error',
+                                template: err.message
+                            }).then(function (res) {
+                                // do nothing
+                            });
+                            return cb(err);
+                        }.bind(this));
+                     } else {
+                        deferred.reject("No Internet Connection");
                         $ionicPopup.alert({
-                            title: 'Error',
-                            template: err.message
+                            title: 'No Internet',
+                            template: 'Please check your device internet connection'
                         }).then(function (res) {
-                            // do nothing
+                            
                         });
-                        return cb(err);
-                    }.bind(this));
-
+                    }   
                     return deferred.promise;
                 }
             };
