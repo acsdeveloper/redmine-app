@@ -189,7 +189,7 @@
             console.log(vm.minutes);
 
             if (NetworkInformation.hasWifiConnection()) {
-                
+                console.log(vm.wifilist)
                 vm.officeWifi = vm.wifilist.filter(function (wifi) {
                     return wifi == "FTTH" || wifi == "FTTH2"
                 }).filter(function (data) {
