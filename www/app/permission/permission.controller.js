@@ -4,7 +4,6 @@
     function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, NetworkInformation, PermissionService) {
         var vm = this;
 
-        vm.isLate = true;
         vm.isOffice = true;
         vm.userInfo = JSON.parse(localStorage.getItem("authDetails"));
         vm.time = vm.userInfo.custom_fields;
@@ -24,7 +23,7 @@
                 vm.officeTime = element;
             }
         })
-        
+
         vm.convertTime = new Date(vm.officeTime.value + " UTC");
         vm.standardTime = vm.convertTime.toString();
         vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
@@ -37,9 +36,6 @@
         });
         }, vm.fail);
         
-        // WifiWizard.getScanResults(function (w) {
-        //     vm.wifilist = w;
-        // }, vm.fail);
 
         WifiWizard.getCurrentSSID(function (w) {
             vm.currentWifi = JSON.parse(w);
@@ -50,7 +46,9 @@
             vm.data = {};
             if(!vm.isNull(vm.dayStartTime)) {
                 if(!vm.isNull(vm.requestTime) && vm.isMinutesValid) {
-                    if (vm.count == 0) {
+                    console.log(vm.requestTime, vm.isMinutesValid);
+                    console.log(localStorage.getItem("permission_id"));
+                    if (vm.isNull(localStorage.getItem("permission_id"))) {
                         vm.data = {
                             "time_entry": {
                                 "project_id": 227,
@@ -66,7 +64,7 @@
                             }
                         }
                         vm.addPermission(vm.data);
-                    } else if (vm.count > 0) {
+                    } else {
                         vm.permission_description = vm.des_comments;
                         console.log(vm.permission_description);
                         vm.data = {
@@ -84,15 +82,14 @@
                             }
                         }
                         vm.updatePermission(vm.entry_id, vm.data);
-                    }           
+                    }
+                    localStorage.setItem("permission_time", vm.requestTime);           
                 } else {
                     vm.isMinutesValid = false;
                 }
             } else {
                 vm.isTimeValid = false;
             }
-
-            localStorage.setItem("permission_time_09-01-2018", vm.requestTime);
         }
 
         vm.addPermission = function (data) {
@@ -108,10 +105,9 @@
                 vm.isPermissionValid = false;
                 console.log(vm.permission_description[0].value)
                 localStorage.setItem("permission_description_09-01-2018", JSON.stringify(vm.permission_description[0].value));
-                //vm.new_entry = resp.time_entry;
-                localStorage.setItem("permission_09-01-2018", JSON.stringify(resp.time_entry.id));
+                localStorage.setItem("permission_id", JSON.stringify(resp.time_entry.id));
                 
-                alert("Permission Created");
+                alert("Permission Booked");
                 vm.permission();
             })
         }
@@ -122,11 +118,13 @@
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.updatePermission(Id, data).then(function (resp) {
+                alert("Permission Updated");
                 if(Office) {
-                    localStorage.setItem('OfficeEntry_09-08-2017', Office);
+                    localStorage.removeItem("permission_id");
+                    vm.isPermissionValid = true;
                 }
                 vm.permission();
-                alert("Permission Updated");
+                
             })
         }
 
@@ -135,36 +133,15 @@
         }
 
         vm.permission = function () {
-            vm.auth = localStorage.getItem("authoptions");
-            $http.defaults.headers.common['Authorization'] = vm.auth;
-            vm.authdata.headers.Authorization = vm.auth;
-            AuthInterceptor.request(vm.authdata);
-            PermissionService.permissionList(vm.userInfo.id).then(function (resp) {
-                vm.count = resp.total_count;
-                vm.list = resp.time_entries;
-                if (localStorage.getItem("permission_09-01-2018")) {
-                    vm.entry_id = localStorage.getItem("permission_09-01-2018");
-                    vm.des_comments = localStorage.getItem("permission_description_09-01-2018");
-                    vm.permissiontime = localStorage.getItem("permission_time_09-01-2018");
-                }
-
-                // if(vm.permissiontime) {
-                //    vm.isPermissionValid = false;     
-                // }
-                
-                if (localStorage.getItem('OfficeEntry_09-08-2017')) {
-                    vm.isLate = true;
-                    vm.isOffice = true;
-                } else {
-                    if (vm.count > 0) {
-                        vm.isOffice = false;
-                    } else {
-                        vm.isOffice = true;
-                    }
-                    vm.isLate = false;
-                }
-                    
-            });
+            if(localStorage.getItem("permission_id")) {
+                vm.entry_id = localStorage.getItem("permission_id");
+                vm.des_comments = localStorage.getItem("permission_description_09-01-2018");
+                vm.permissionTime = localStorage.getItem("permission_time");
+                vm.isOffice = false;
+                vm.isPermissionValid = false;
+            } else {
+                vm.isOffice = true;
+            }
         }
 
         vm.enterMinutes = function () {
@@ -173,7 +150,6 @@
             } else {
                 vm.isMinutesValid = false;
             }
-
         }
 
         vm.enterTime = function () {
@@ -191,11 +167,16 @@
         vm.permission();
 
         vm.officeClick = function () {
+            vm.dayTime = $filter('date')(new Date(vm.dayStartTime), "h:mm a");
             vm.inOfficeTime = $filter('date')(new Date(), "h:mm a");
-            vm.startTime = moment(vm.dayStartTime, "HH:mm a");
+
+            vm.startTime = moment(vm.dayTime, "HH:mm a");
             vm.endTime = moment(vm.inOfficeTime, "HH:mm a");
             vm.minutes = vm.endTime.diff(vm.startTime, 'minutes');
-            
+            console.log(vm.startTime);
+            console.log(vm.endTime);
+            console.log(vm.minutes);
+
             if (NetworkInformation.hasWifiConnection()) {
                 
                 vm.officeWifi = vm.wifilist.filter(function (wifi) {
@@ -210,11 +191,11 @@
                             "project_id": 227,
                             "hours": vm.minutes + "min",
                             "activity_id": 15,
-                            "comments": "Permission for " + vm.permissiontime + " Minutes",
+                            "comments": "Permission for " + vm.permissionTime + " Minutes",
                             "custom_fields": [
                                 {
                                     "id": 7,
-                                    "value": "Permission for " + vm.permissiontime + " Minutes. In Office Time " + vm.inOfficeTime
+                                    "value": "Permission for " + vm.permissionTime + " Minutes. In Office Time " + vm.inOfficeTime
                                 }
                             ]
                         }
