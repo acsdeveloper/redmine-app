@@ -1,7 +1,7 @@
 
 (function () {
     'use strict';
-    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, NetworkInformation, PermissionService) {
+    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, $ionicPopup,NetworkInformation, PermissionService) {
         var vm = this;
 
         vm.isOffice = true;
@@ -107,7 +107,12 @@
                 localStorage.setItem("permission_description_09-01-2018", JSON.stringify(vm.permission_description[0].value));
                 localStorage.setItem("permission_id", JSON.stringify(resp.time_entry.id));
                 
-                alert("Permission Booked");
+                $ionicPopup.alert({
+                    title: "Permission Request",
+                    template: "Permission Booked"
+                }).then(function () {
+                   
+                });
                 vm.permission();
             })
         }
@@ -118,13 +123,19 @@
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.updatePermission(Id, data).then(function (resp) {
-                alert("Permission Updated");
+            
                 if(Office) {
                     localStorage.removeItem("permission_id");
                     vm.isPermissionValid = true;
                 }
                 vm.permission();
-                
+
+                $ionicPopup.alert({
+                    title: "Permission Request",
+                    template: "Permission Updated"
+                }).then(function () {
+                    
+                });
             })
         }
 
@@ -204,20 +215,37 @@
                     vm.updatePermission(vm.entry_id, vm.data, vm.clickOffice);
                     
                 } else {
-                    alert('check your wifi-connection and try again')
+                    
+                    $ionicPopup.alert({
+                        title: "No Internet",
+                        template: "Check your wifi-connection and try again"
+                    }).then(function () {
+                        
+                    });
                 }
             }
             else {
-                alert('Connect to office Wifi-network and try again')
+                $ionicPopup.alert({
+                    title: "No Internet",
+                    template: "Connect to office Wifi-network and try again"
+                }).then(function () {
+                    
+                });
             }
         }
 
         vm.fail = function () {
-            alert('Wifi-Network error')
+            
+            $ionicPopup.alert({
+                title: "No Internet",
+                template: "Wifi-Network error"
+            }).then(function () {
+                
+            });
         }
     }
 
     angular.module('redmine.permission')
         .controller('PermissionCtrl', PermissionCtrl)
-    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', 'NetworkInformation', 'PermissionService'];
+    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', '$ionicPopup','NetworkInformation', 'PermissionService'];
 }());
