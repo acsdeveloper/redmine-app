@@ -28,12 +28,10 @@
         vm.standardTime = vm.convertTime.toString();
         vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
 
-        vm.dayStartTime = new Date(vm.standardTime);
-
         WifiWizard.listNetworks(function (w) {
             vm.wifilist = w.map(function(element, i){
-            return JSON.parse(element);
-        });
+                return JSON.parse(element);
+            });
         }, vm.fail);
         
 
@@ -126,6 +124,7 @@
             
                 if(Office) {
                     localStorage.removeItem("permission_id");
+                    localStorage.removeItem("startTime");
                     vm.isPermissionValid = true;
                 }
                 vm.permission();
@@ -167,6 +166,7 @@
             if (vm.isNull(vm.dayStartTime)) {
                 vm.isTimeValid = false;
             } else {
+                localStorage.setItem('startTime', vm.dayStartTime)
                 vm.isTimeValid = true;
             }
         }
@@ -177,6 +177,12 @@
 
         vm.permission();
 
+        if(vm.isNull(localStorage.getItem('startTime'))) {
+            vm.dayStartTime = new Date(vm.standardTime);    
+        } else {
+            vm.dayStartTime = new Date(localStorage.getItem('startTime'));
+        }
+
         vm.officeClick = function () {
             vm.dayTime = $filter('date')(new Date(vm.dayStartTime), "h:mm a");
             vm.inOfficeTime = $filter('date')(new Date(), "h:mm a");
@@ -184,8 +190,8 @@
             vm.startTime = moment(vm.dayTime, "HH:mm a");
             vm.endTime = moment(vm.inOfficeTime, "HH:mm a");
             vm.minutes = vm.endTime.diff(vm.startTime, 'minutes');
-            console.log(vm.startTime);
-            console.log(vm.endTime);
+            console.log(vm.dayTime);
+            console.log(vm.inOfficeTime);
             console.log(vm.minutes);
 
             if (NetworkInformation.hasWifiConnection()) {

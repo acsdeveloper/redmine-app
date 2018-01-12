@@ -8,7 +8,7 @@
         vm.lunchparam = {
             "time_entry" : {
                 "project_id" : 342,
-                "hours"  : 0.01,
+                "hours"  : 0.00,
                 "activity_id" : 16,
                 "comments"  : "I need lunch today",
                 "custom_fields" : [
