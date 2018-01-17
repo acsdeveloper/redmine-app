@@ -27,7 +27,10 @@
         vm.convertTime = new Date(vm.officeTime.value + " UTC");
         vm.standardTime = vm.convertTime.toString();
         vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
-
+        console.log(vm.officeTime.value)
+        console.log(vm.convertTime)
+        console.log(vm.standardTime)
+        console.log(vm.officeStartTime)
         WifiWizard.listNetworks(function (w) {
             vm.wifilist = w.map(function(element, i){
                 return JSON.parse(element);

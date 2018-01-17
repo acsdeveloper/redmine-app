@@ -11,8 +11,9 @@
     "dependencies": {
         "com.pylonproducts.wifiwizard": "~0.2.11",
         "cordova-android": "6.2.3",
+        "cordova-ios": "^4.4.0",
         "cordova-plugin-device": "^1.1.7",
-        "cordova-plugin-ionic-webview": "^1.1.16",
+        "cordova-plugin-email-composer": "git+https://github.com/katzer/cordova-plugin-email-composer.git",
         "cordova-plugin-network-information": "^2.0.1",
         "cordova-plugin-networkinterface": "^1.2.0",
         "cordova-plugin-splashscreen": "^4.1.0",
@@ -24,17 +25,18 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-device": {},
-            "cordova-plugin-ionic-webview": {},
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {},
             "cordova-plugin-network-information": {},
             "com.pylonproducts.wifiwizard": {},
             "cordova-plugin-networkinterface": {},
-            "cordova-plugin-x-toast": {}
+            "cordova-plugin-x-toast": {},
+            "cordova-plugin-email-composer": {}
         },
         "platforms": [
-            "android"
+            "android",
+            "ios"
         ]
     }
 }
