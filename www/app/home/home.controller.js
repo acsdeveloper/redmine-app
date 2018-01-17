@@ -1,12 +1,12 @@
 
 (function () {
     'use strict';
-    function HomeCtrl(HomeService, $filter, $state,$cordovaToast) {
+    function HomeCtrl(HomeService, $filter, $state) {
         var vm = this;
         vm.islunchbook = true;
+        vm.isreportbook = false;
         vm.date = $filter('date')(new Date(), "h:mm:ss a");
-        console.log(vm.date);
-        if (vm.date > "1:00:00 PM" && vm.date < "8:30:00 PM") {
+        if (vm.date > "7:00:00 AM" && vm.date < "11:30:00 AM") {
             vm.islunchbook = true;
         }
         else {
@@ -41,5 +41,5 @@
 
     angular.module('redmine.home')
         .controller('HomeCtrl', HomeCtrl)
-    HomeCtrl.$inject = ['HomeService', '$filter', '$state','$cordovaToast'];
+    HomeCtrl.$inject = ['HomeService', '$filter', '$state'];
 }());
