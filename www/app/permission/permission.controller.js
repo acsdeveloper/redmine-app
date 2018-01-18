@@ -1,7 +1,7 @@
 
 (function () {
     'use strict';
-    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, $ionicPopup,NetworkInformation, PermissionService) {
+    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, $ionicPopup,NetworkInformation, PermissionService, $cordovaDatePicker) {
         var vm = this;
 
         vm.isOffice = true;
@@ -23,6 +23,17 @@
                 vm.officeTime = element;
             }
         })
+
+        vm.options = {
+            date: new Date(),
+            mode: 'time',
+            allowOldDates: true,
+            allowFutureDates: false,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#F2F3F4',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
 
         vm.convertTime = new Date(vm.officeTime.value + " UTC");
         vm.standardTime = vm.convertTime.toString();
@@ -160,12 +171,18 @@
         }
 
         vm.enterTime = function () {
-            if (vm.isNull(vm.dayStartTime)) {
-                vm.isTimeValid = false;
-            } else {
+
+            $cordovaDatePicker.show(vm.options).then(function(date) {
+                vm.dayStartTime = $filter('date')(new Date(date), "h:mm a");
                 localStorage.setItem('startTime', vm.dayStartTime)
-                vm.isTimeValid = true;
-            }
+            });
+
+            // if (vm.isNull(vm.dayStartTime)) {
+            //     vm.isTimeValid = false;
+            // } else {
+            //     localStorage.setItem('startTime', vm.dayStartTime)
+            //     vm.isTimeValid = true;
+            // }
         }
 
         vm.isNull = function (value) {
@@ -175,16 +192,16 @@
         vm.permission();
 
         if(vm.isNull(localStorage.getItem('startTime'))) {
-            vm.dayStartTime = new Date(vm.standardTime);    
+            vm.dayStartTime = $filter('date')(new Date(vm.convertTime), "h:mm a");    
         } else {
-            vm.dayStartTime = new Date(localStorage.getItem('startTime'));
+            vm.dayStartTime = localStorage.getItem('startTime');
         }
 
         vm.officeClick = function () {
-            vm.dayTime = $filter('date')(new Date(vm.dayStartTime), "h:mm a");
+            // vm.dayTime = $filter('date')(new Date(vm.dayStartTime), "h:mm a");
             vm.inOfficeTime = $filter('date')(new Date(), "h:mm a");
 
-            vm.startTime = moment(vm.dayTime, "h:mm a");
+            vm.startTime = moment(vm.dayStartTime, "h:mm a");
             vm.endTime = moment(vm.inOfficeTime, "h:mm a");
             vm.minutes = vm.endTime.diff(vm.startTime, 'minutes');
 
@@ -246,5 +263,6 @@
 
     angular.module('redmine.permission')
         .controller('PermissionCtrl', PermissionCtrl)
-    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', '$ionicPopup','NetworkInformation', 'PermissionService'];
+    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', '$ionicPopup','NetworkInformation', 'PermissionService', '$cordovaDatePicker'];
+
 }());
