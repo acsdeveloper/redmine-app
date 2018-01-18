@@ -30,7 +30,7 @@
                         Today Office Time
                     </div>
                     <div class="col">
-                    	<input type="time" class="col pad-0" ng-model="vm.dayStartTime" placeholder="Enter Time" ng-change="vm.enterTime()">
+                    	<input type="time" class="col pad-0" ng-model="vm.dayStartTime" placeholder="Enter Time" ng-change="vm.enterTime()" pattern="[0-9]{2}:[0-9]{2}">
                     	<div ng-show="!vm.isTimeValid" class="error-msg">Choose day start time</div>
                     </div>
                 </div>

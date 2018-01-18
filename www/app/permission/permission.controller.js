@@ -23,8 +23,9 @@
                 vm.officeTime = element;
             }
         })
-
-        vm.convertTime = new Date(vm.officeTime.value + " UTC");
+        console.log(vm.officeTime.value.replace('-', '/'));
+        vm.convertTime = new Date(vm.officeTime.value.replace(/-/g, "/") + " UTC");
+        console.log(vm.convertTime)
         vm.standardTime = vm.convertTime.toString();
         vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
 
@@ -193,6 +194,7 @@
 
             if (NetworkInformation.hasWifiConnection()) {
                 NetworkInformation.wifiNetworks().then(function(resp) {
+                    console.log(resp);
                     vm.officeWifi = resp.wifiList.filter(function (wifi) {
                         return wifi == "FTTH" || wifi == "FTTH2"
                     }).filter(function (data) {

@@ -5,11 +5,12 @@
         var vm = this;
         vm.islunchbook = true;
         vm.isreportbook = false;
-        vm.date = $filter('date')(new Date(), "h:mm:ss a");
-        if (vm.date > "7:00:00 AM" && vm.date < "11:30:00 AM") {
+        vm.date = moment(new Date(), "h:mm:ss a");
+        vm.startTime = moment("8:00:00 AM", "h:mm:ss a");
+        vm.endTime = moment("11:30:00 AM", "h:mm:ss a");
+        if (vm.date.isBetween(vm.startTime, vm.endTime)) {
             vm.islunchbook = true;
-        }
-        else {
+        } else {
             vm.islunchbook = false;
         }
 
