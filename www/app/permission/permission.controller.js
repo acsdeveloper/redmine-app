@@ -1,7 +1,7 @@
 
 (function () {
     'use strict';
-    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, $ionicPopup,NetworkInformation, PermissionService) {
+    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, $ionicPopup,NetworkInformation, PermissionService, $cordovaDatePicker) {
         var vm = this;
 
         vm.isOffice = true;
@@ -26,6 +26,19 @@
         console.log(vm.officeTime.value.replace('-', '/'));
         vm.convertTime = new Date(vm.officeTime.value.replace(/-/g, "/") + " UTC");
         console.log(vm.convertTime)
+
+        vm.options = {
+            date: new Date(),
+            mode: 'time',
+            allowOldDates: true,
+            allowFutureDates: false,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#F2F3F4',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        vm.convertTime = new Date(vm.officeTime.value + " UTC");
         vm.standardTime = vm.convertTime.toString();
         vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
 
@@ -47,39 +60,23 @@
                 if(!vm.isNull(vm.requestTime) && vm.isMinutesValid) {
                     console.log(vm.requestTime, vm.isMinutesValid);
                     console.log(localStorage.getItem("permission_id"));
-                    if (vm.isNull(localStorage.getItem("permission_id"))) {
-                        vm.data = {
-                            "time_entry": {
-                                "project_id": 227,
-                                "hours": vm.requestTime + "min",
-                                "activity_id": 15,
-                                "comments": "Permission for " + vm.requestTime + " Minutes",
-                                "custom_fields": [
-                                    {
-                                        "id": 7,
-                                        "value": "Permission for " + vm.requestTime + " Minutes. "
-                                    }
-                                ]
-                            }
+                    vm.data = {
+                        "time_entry": {
+                            "project_id": 227,
+                            "hours": vm.requestTime + "min",
+                            "activity_id": 15,
+                            "comments": "Permission for " + vm.requestTime + " Minutes",
+                            "custom_fields": [
+                                {
+                                    "id": 7,
+                                    "value": "Permission for " + vm.requestTime + " Minutes. "
+                                }
+                            ]
                         }
+                    }
+                    if (vm.isNull(localStorage.getItem("permission_id"))) {
                         vm.addPermission(vm.data);
                     } else {
-                        vm.permission_description = vm.des_comments;
-                        console.log(vm.permission_description);
-                        vm.data = {
-                            "time_entry": {
-                                "project_id": 227,
-                                "hours": vm.requestTime + "min",
-                                "activity_id": 15,
-                                "comments": "Permission for " + vm.requestTime + " Minutes",
-                                "custom_fields": [
-                                    {
-                                        "id": 7,
-                                        "value": JSON.parse(vm.des_comments)
-                                    }
-                                ]
-                            }
-                        }
                         vm.updatePermission(vm.entry_id, vm.data);
                     }
                     localStorage.setItem("permission_time", vm.requestTime);           
@@ -97,13 +94,13 @@
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.addPermission(data).then(function (resp) {
-                vm.permission_description = resp.time_entry.custom_fields;
-                vm.permission_description = vm.permission_description.filter(function (des) {
-                    return des.id == 7;
-                });
+                // vm.permission_description = resp.time_entry.custom_fields;
+                // vm.permission_description = vm.permission_description.filter(function (des) {
+                //     return des.id == 7;
+                // });
                 vm.isPermissionValid = false;
-                console.log(vm.permission_description[0].value)
-                localStorage.setItem("permission_description", JSON.stringify(vm.permission_description[0].value));
+                // console.log(vm.permission_description[0].value)
+                // localStorage.setItem("permission_description", JSON.stringify(vm.permission_description[0].value));
                 localStorage.setItem("permission_id", JSON.stringify(resp.time_entry.id));
                 
                 $ionicPopup.alert({
@@ -124,6 +121,7 @@
             PermissionService.updatePermission(Id, data).then(function (resp) {
             
                 if(Office) {
+                    //vm.sendEmail();
                     localStorage.removeItem("permission_id");
                     localStorage.removeItem("startTime");
                     vm.isPermissionValid = true;
@@ -139,6 +137,18 @@
             })
         }
 
+        // vm.sendEmail = function() {
+        //     vm.send = {
+        //         "from": vm.userInfo.mail,
+        //         "comments": "Permission for " + vm.permissionTime + " Minutes. In Office Time " + vm.inOfficeTime,
+                
+        //     }
+        //     PermissionService.sendEmail(vm.send).then(function(resp) {
+
+        //     })
+
+        // }
+
         vm.myGoBack = function () {
             $ionicHistory.goBack();
         }
@@ -146,7 +156,7 @@
         vm.permission = function () {
             if(localStorage.getItem("permission_id")) {
                 vm.entry_id = localStorage.getItem("permission_id");
-                vm.des_comments = localStorage.getItem("permission_description");
+                //vm.des_comments = localStorage.getItem("permission_description");
                 vm.permissionTime = localStorage.getItem("permission_time");
                 vm.isOffice = false;
                 vm.isPermissionValid = false;
@@ -164,12 +174,18 @@
         }
 
         vm.enterTime = function () {
-            if (vm.isNull(vm.dayStartTime)) {
-                vm.isTimeValid = false;
-            } else {
+
+            $cordovaDatePicker.show(vm.options).then(function(date) {
+                vm.dayStartTime = $filter('date')(new Date(date), "h:mm a");
                 localStorage.setItem('startTime', vm.dayStartTime)
-                vm.isTimeValid = true;
-            }
+            });
+
+            // if (vm.isNull(vm.dayStartTime)) {
+            //     vm.isTimeValid = false;
+            // } else {
+            //     localStorage.setItem('startTime', vm.dayStartTime)
+            //     vm.isTimeValid = true;
+            // }
         }
 
         vm.isNull = function (value) {
@@ -179,17 +195,17 @@
         vm.permission();
 
         if(vm.isNull(localStorage.getItem('startTime'))) {
-            vm.dayStartTime = new Date(vm.standardTime);    
+            vm.dayStartTime = $filter('date')(new Date(vm.convertTime), "h:mm a");    
         } else {
-            vm.dayStartTime = new Date(localStorage.getItem('startTime'));
+            vm.dayStartTime = localStorage.getItem('startTime');
         }
 
         vm.officeClick = function () {
-            vm.dayTime = $filter('date')(new Date(vm.dayStartTime), "h:mm a");
+            // vm.dayTime = $filter('date')(new Date(vm.dayStartTime), "h:mm a");
             vm.inOfficeTime = $filter('date')(new Date(), "h:mm a");
 
-            vm.startTime = moment(vm.dayTime, "HH:mm a");
-            vm.endTime = moment(vm.inOfficeTime, "HH:mm a");
+            vm.startTime = moment(vm.dayStartTime, "h:mm a");
+            vm.endTime = moment(vm.inOfficeTime, "h:mm a");
             vm.minutes = vm.endTime.diff(vm.startTime, 'minutes');
 
             if (NetworkInformation.hasWifiConnection()) {
@@ -251,5 +267,6 @@
 
     angular.module('redmine.permission')
         .controller('PermissionCtrl', PermissionCtrl)
-    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', '$ionicPopup','NetworkInformation', 'PermissionService'];
+    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', '$ionicPopup','NetworkInformation', 'PermissionService', '$cordovaDatePicker'];
+
 }());

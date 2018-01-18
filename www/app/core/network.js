@@ -37,8 +37,6 @@
                     });
                     WifiWizard.getCurrentSSID(function (w) {
                         currentWifi = w.replace(/["]+/g, '');
-                        console.log(w);
-                        console.log(currentWifi);
                     });
                     $timeout(function() {
                         object['wifiList'] = wifilist;
