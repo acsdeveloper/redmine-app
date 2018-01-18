@@ -23,17 +23,6 @@
         vm.report = function () {
             $state.go("report")
         }
-        ionic.Platform.ready(function () {
-            WifiWizard.getScanResults(function (w) {
-                console.log(w)
-            }, vm.fail);
-            WifiWizard.getCurrentSSID(function (w) {
-                console.log(w)
-            }, vm.fail);
-            WifiWizard.listNetworks(function (w) {
-                console.log(w)
-            }, vm.fail);
-        });
 
         vm.fail = function () {
             console.log("error")
