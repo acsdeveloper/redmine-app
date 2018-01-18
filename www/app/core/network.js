@@ -33,7 +33,7 @@
                         });
                     });
                     WifiWizard.getCurrentSSID(function (w) {
-                        currentWifi = JSON.parse(w);
+                        currentWifi = w.replace(/["]+/g, '');
                     });
                     $timeout(function() {
                         object['wifiList'] = wifilist;
