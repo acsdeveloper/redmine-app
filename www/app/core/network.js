@@ -13,7 +13,6 @@
                 hasWifiConnection: function () {
                     if (navigator.connection) {
                         var networkState = navigator.connection.type;
-                        console.log(networkState);
                         if (networkState == "wifi") {
                             return true;
                         } else {

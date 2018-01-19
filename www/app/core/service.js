@@ -3,30 +3,31 @@
 (function () {
     'use strict';
     angular.module('redmine.service', [])
-        .factory("Request", function ($http, $q,$ionicPopup, NetworkInformation) {
+        .factory("Request", function ($http, $q,$ionicPopup, Loader, NetworkInformation) {
             return {
                 get: function (url, callback) {
                     var deferred = $q.defer();
                     if (NetworkInformation.hasNetworkConnection()) {
+                        Loader.startLoading();
                         var cb = callback || angular.noop;
                         $http.get(url).success(function (response, status) {
                             if (status === 200) {
+                                Loader.stopLoading();
                                 deferred.resolve(response);
                                 return cb(response);
                             } else {
-                             
+                                Loader.stopLoading();
                                 deferred.reject(response.message);
                                 return cb(response);
                             }
                         }).error(function (err) {
-                           
+                           Loader.stopLoading();
                             //deferred.reject("Timeout");
                             $ionicPopup.alert({
                                 title: 'Error',
                                 template: err.message
                             }).then(function (res) {
-                                console.log(res);
-                                // do nothing
+                               
                             });
                             return cb(err);
                         }.bind(this));
@@ -44,23 +45,27 @@
                 post: function (url, postData, callback) {
                     var deferred = $q.defer();
                     if (NetworkInformation.hasNetworkConnection()) {
+                        Loader.startLoading();
                         var cb = callback || angular.noop;
                         $http.defaults.headers.post["Content-Type"] = "application/json";
                         $http.post(url, postData).success(function (response, status) {
                             if (status === 200 || status === 201)  {
+                                Loader.stopLoading();
                                 deferred.resolve(response);
                                 return cb();
                             } else {
+                                Loader.stopLoading();
                                 deferred.reject(response.message);
                                 return cb(response);
                             }
                         }).error(function (err) {
+                            Loader.stopLoading();
                             deferred.reject();
                             $ionicPopup.alert({
                                 title: 'Error',
                                 template: err.message
                             }).then(function (res) {
-                                console.log(res);
+                                
                             });
                             return cb(err);
                         }.bind(this));
@@ -94,7 +99,7 @@
                                 title: 'Error',
                                 template: err.message
                             }).then(function (res) {
-                                // do nothing
+                                
                             });
                             return cb(err);
                         }.bind(this));
@@ -112,23 +117,27 @@
                 put: function (url, postData, callback) {
                     var deferred = $q.defer();
                     if (NetworkInformation.hasNetworkConnection()) {
+                        Loader.startLoading();
                         var cb = callback || angular.noop;
                         $http.defaults.headers.post["Content-Type"] = "application/json";
                         $http.put(url, postData).success(function (response, status) {
                             if (status === 200 || status === 201)  {
+                                Loader.stopLoading();
                                 deferred.resolve(response);
                                 return cb();
                             } else {
+                                Loader.stopLoading();
                                 deferred.reject(response.message);
                                 return cb(response);
                             }
                         }).error(function (err) {
+                            Loader.stopLoading();
                             deferred.reject();
                             $ionicPopup.alert({
                                 title: 'Error',
                                 template: err.message
                             }).then(function (res) {
-                                console.log(res);
+                                
                             });
                             return cb(err);
                         }.bind(this));
@@ -146,24 +155,28 @@
                 delete: function (url, postData, callback) {
                     var deferred = $q.defer();
                     if (NetworkInformation.hasNetworkConnection()) {
+                        Loader.startLoading();
                         var cb = callback || angular.noop;
                         $http.defaults.headers.post["Content-Type"] = "application/json";
                 
                         $http.delete(url).success(function (response, status) {
                             if (status === 200 || status === 201) {
+                                Loader.stopLoading();
                                 deferred.resolve(response);
                                 return cb();
                             } else {
+                                Loader.stopLoading();
                                 deferred.reject(response.message);
                                 return cb(response);
                             }
                         }).error(function (err) {
+                            Loader.stopLoading();
                             //deferred.reject("Timeout");
                             $ionicPopup.alert({
                                 title: 'Error',
                                 template: err.message
                             }).then(function (res) {
-                                // do nothing
+                                
                             });
                             return cb(err);
                         }.bind(this));

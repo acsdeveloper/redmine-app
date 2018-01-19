@@ -7,7 +7,6 @@
 
         vm.showbooked = function () {
             vm.date = $filter('date')(new Date(), "yyyy-MM-dd");
-            console.log(vm.date)
 			vm.url = "https://pm.agilecyber.co.uk/time_entries.json?project_id=342&limit=100&spent_on="+vm.date;
             return Request.get(vm.url).then(function (resp) {
                 vm.deferred.resolve(resp);

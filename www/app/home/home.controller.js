@@ -6,7 +6,7 @@
         vm.islunchbook = true;
         vm.date = moment(new Date(), "h:mm:ss a");
         vm.startTime = moment("8:00:00 AM", "h:mm:ss a");
-        vm.endTime = moment("11:40:00 AM", "h:mm:ss a");
+        vm.endTime = moment("11:30:00 AM", "h:mm:ss a");
         
         if (vm.date.isBetween(vm.startTime, vm.endTime)) {
             vm.islunchbook = true;
@@ -22,10 +22,6 @@
         }
         vm.report = function () {
             $state.go("report")
-        }
-
-        vm.fail = function () {
-            console.log("error")
         }
     }
 
