@@ -23,10 +23,9 @@
                 vm.officeTime = element;
             }
         })
-        console.log(vm.officeTime.value.replace('-', '/'));
-        vm.convertTime = new Date(vm.officeTime.value.replace(/-/g, "/") + " UTC");
-        console.log(vm.convertTime)
 
+        // vm.convertTime = new Date(vm.officeTime.value.replace(/-/g, "/") + " UTC");
+        
         vm.options = {
             date: new Date(),
             mode: 'time',
