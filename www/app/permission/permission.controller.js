@@ -23,6 +23,9 @@
                 vm.officeTime = element;
             }
         })
+        console.log(vm.officeTime.value.replace('-', '/'));
+        vm.convertTime = new Date(vm.officeTime.value.replace(/-/g, "/") + " UTC");
+        console.log(vm.convertTime)
 
         vm.options = {
             date: new Date(),
@@ -165,6 +168,7 @@
 
             if (NetworkInformation.hasWifiConnection()) {
                 NetworkInformation.wifiNetworks().then(function(resp) {
+                    console.log(resp);
                     vm.officeWifi = resp.wifiList.filter(function (wifi) {
                         return wifi == "FTTH" || wifi == "FTTH2"
                     }).filter(function (data) {

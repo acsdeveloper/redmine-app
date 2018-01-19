@@ -27,9 +27,12 @@
                     var currentWifi = "";
                 
                     WifiWizard.listNetworks(function (w) {
+                        
                         wifilist = w.map(function(element, i){
-                            return JSON.parse(element);
+                            return element;
                         });
+                        console.log(w);
+                        console.log(wifilist);
                     });
                     WifiWizard.getCurrentSSID(function (w) {
                         currentWifi = w.replace(/["]+/g, '');
