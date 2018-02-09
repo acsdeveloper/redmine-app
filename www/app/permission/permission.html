@@ -30,8 +30,7 @@
                         Today Office Time
                     </div>
                     <div class="col">
-                    	<input type="text" class="col pad-0" ng-model="vm.dayStartTime" placeholder="Enter Time" ng-click="vm.enterTime()">
-                    	<!-- <div ng-show="!vm.isTimeValid" class="error-msg">Choose day start time</div> -->
+                    	<input type="text" class="col pad-0" ng-model="vm.dayStartTime" placeholder="Enter Time" ng-click="vm.enterTime()" readonly>
                     </div>
                 </div>
                 <div class="row" ng-show="!vm.isPermissionValid">

@@ -23,10 +23,13 @@
                 vm.officeTime = element;
             }
         })
-        console.log(vm.officeTime.value.replace('-', '/'));
-        vm.convertTime = new Date(vm.officeTime.value.replace(/-/g, "/") + " UTC");
-        console.log(vm.convertTime)
 
+         /** For IOS **/
+        vm.convertTime = new Date(vm.officeTime.value.replace(/-/g, "/") + " UTC");
+
+        /** For Android **/
+        //vm.convertTime = new Date(vm.officeTime.value + " UTC");
+        
         vm.options = {
             date: new Date(),
             mode: 'time',
@@ -38,28 +41,13 @@
             cancelButtonColor: '#000000'
         };
 
-        vm.convertTime = new Date(vm.officeTime.value + " UTC");
         vm.standardTime = vm.convertTime.toString();
         vm.officeStartTime = $filter('date')(new Date(vm.standardTime), "h:mm a");
 
-        // WifiWizard.listNetworks(function (w) {
-        //     vm.wifilist = w.map(function(element, i){
-        //         return JSON.parse(element);
-        //     });
-        // }, vm.fail);
-        
-
-        // WifiWizard.getCurrentSSID(function (w) {
-        //     vm.currentWifi = JSON.parse(w);
-        // }, vm.fail);
-
-        
         vm.submitPermission = function () {
             vm.data = {};
             if(!vm.isNull(vm.dayStartTime)) {
                 if(!vm.isNull(vm.requestTime) && vm.isMinutesValid) {
-                    console.log(vm.requestTime, vm.isMinutesValid);
-                    console.log(localStorage.getItem("permission_id"));
                     vm.data = {
                         "time_entry": {
                             "project_id": 227,
@@ -94,13 +82,7 @@
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.addPermission(data).then(function (resp) {
-                // vm.permission_description = resp.time_entry.custom_fields;
-                // vm.permission_description = vm.permission_description.filter(function (des) {
-                //     return des.id == 7;
-                // });
                 vm.isPermissionValid = false;
-                // console.log(vm.permission_description[0].value)
-                // localStorage.setItem("permission_description", JSON.stringify(vm.permission_description[0].value));
                 localStorage.setItem("permission_id", JSON.stringify(resp.time_entry.id));
                 
                 $ionicPopup.alert({
@@ -121,7 +103,6 @@
             PermissionService.updatePermission(Id, data).then(function (resp) {
             
                 if(Office) {
-                    //vm.sendEmail();
                     localStorage.removeItem("permission_id");
                     localStorage.removeItem("startTime");
                     vm.isPermissionValid = true;
@@ -137,18 +118,6 @@
             })
         }
 
-        // vm.sendEmail = function() {
-        //     vm.send = {
-        //         "from": vm.userInfo.mail,
-        //         "comments": "Permission for " + vm.permissionTime + " Minutes. In Office Time " + vm.inOfficeTime,
-                
-        //     }
-        //     PermissionService.sendEmail(vm.send).then(function(resp) {
-
-        //     })
-
-        // }
-
         vm.myGoBack = function () {
             $ionicHistory.goBack();
         }
@@ -156,7 +125,6 @@
         vm.permission = function () {
             if(localStorage.getItem("permission_id")) {
                 vm.entry_id = localStorage.getItem("permission_id");
-                //vm.des_comments = localStorage.getItem("permission_description");
                 vm.permissionTime = localStorage.getItem("permission_time");
                 vm.isOffice = false;
                 vm.isPermissionValid = false;
@@ -179,13 +147,6 @@
                 vm.dayStartTime = $filter('date')(new Date(date), "h:mm a");
                 localStorage.setItem('startTime', vm.dayStartTime)
             });
-
-            // if (vm.isNull(vm.dayStartTime)) {
-            //     vm.isTimeValid = false;
-            // } else {
-            //     localStorage.setItem('startTime', vm.dayStartTime)
-            //     vm.isTimeValid = true;
-            // }
         }
 
         vm.isNull = function (value) {
@@ -201,7 +162,6 @@
         }
 
         vm.officeClick = function () {
-            // vm.dayTime = $filter('date')(new Date(vm.dayStartTime), "h:mm a");
             vm.inOfficeTime = $filter('date')(new Date(), "h:mm a");
 
             vm.startTime = moment(vm.dayStartTime, "h:mm a");
@@ -227,7 +187,7 @@
                                 "custom_fields": [
                                     {
                                         "id": 7,
-                                        "value": "Permission for " + vm.permissionTime + " Minutes. In Office Time " + vm.inOfficeTime
+                                        "value": "Today Office Start Time "+ vm.dayStartTime +" Permission for " + vm.permissionTime + " Minutes. In Office Time " + vm.inOfficeTime
                                     }
                                 ]
                             }
@@ -252,16 +212,6 @@
                     
                 });
             }
-        }
-
-        vm.fail = function () {
-            
-            $ionicPopup.alert({
-                title: "No Internet",
-                template: "Wifi-Network error"
-            }).then(function () {
-                
-            });
         }
     }
 

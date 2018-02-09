@@ -13,7 +13,6 @@
                 hasWifiConnection: function () {
                     if (navigator.connection) {
                         var networkState = navigator.connection.type;
-                        console.log(networkState);
                         if (networkState == "wifi") {
                             return true;
                         } else {
@@ -28,12 +27,9 @@
                     var currentWifi = "";
                 
                     WifiWizard.listNetworks(function (w) {
-                        
                         wifilist = w.map(function(element, i){
-                            return element;
+                            return JSON.parse(element);
                         });
-                        console.log(w);
-                        console.log(wifilist);
                     });
                     WifiWizard.getCurrentSSID(function (w) {
                         currentWifi = w.replace(/["]+/g, '');
