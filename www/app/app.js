@@ -41,6 +41,9 @@
         };
 
       });
+      $ionicPlatform.on('pause', function() {
+        $ionicHistory.goBack();
+      });
     })  
 }());
 

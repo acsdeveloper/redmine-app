@@ -121,6 +121,9 @@
     padding: 4em 1em;
 }
 
+
+/** Permission Screen **/
+
 .container {
     padding: 10px;
     background-color: #f8f8f8;
@@ -171,6 +174,12 @@
 .mins_label
 {
     align-self: flex-end;
+}
+
+.booking .item-select select
+{
+    padding: 0px;
+    position: relative;
 }
 /** report screen **/
 

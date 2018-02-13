@@ -1,7 +1,7 @@
 
 (function () {
     'use strict';
-    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, $ionicPopup,NetworkInformation, PermissionService, $cordovaDatePicker) {
+    function PermissionCtrl($ionicHistory, $filter, $http, AuthInterceptor, $ionicPopup, NetworkInformation, PermissionService, $cordovaDatePicker) {
         var vm = this;
 
         vm.isOffice = true;
@@ -24,12 +24,12 @@
             }
         })
 
-         /** For IOS **/
+        /** For IOS **/
         vm.convertTime = new Date(vm.officeTime.value.replace(/-/g, "/") + " UTC");
 
         /** For Android **/
         //vm.convertTime = new Date(vm.officeTime.value + " UTC");
-        
+
         vm.options = {
             date: new Date(),
             mode: 'time',
@@ -46,8 +46,8 @@
 
         vm.submitPermission = function () {
             vm.data = {};
-            if(!vm.isNull(vm.dayStartTime)) {
-                if(!vm.isNull(vm.requestTime) && vm.isMinutesValid) {
+            if (!vm.isNull(vm.dayStartTime)) {
+                if (!vm.isNull(vm.requestTime) && vm.isMinutesValid) {
                     vm.data = {
                         "time_entry": {
                             "project_id": 227,
@@ -67,7 +67,7 @@
                     } else {
                         vm.updatePermission(vm.entry_id, vm.data);
                     }
-                    localStorage.setItem("permission_time", vm.requestTime);           
+                    localStorage.setItem("permission_time", vm.requestTime);
                 } else {
                     vm.isMinutesValid = false;
                 }
@@ -84,12 +84,12 @@
             PermissionService.addPermission(data).then(function (resp) {
                 vm.isPermissionValid = false;
                 localStorage.setItem("permission_id", JSON.stringify(resp.time_entry.id));
-                
+
                 $ionicPopup.alert({
                     title: "Permission Request",
                     template: "Permission Booked"
                 }).then(function () {
-                   
+
                 });
                 vm.permission();
             })
@@ -101,8 +101,8 @@
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.updatePermission(Id, data).then(function (resp) {
-            
-                if(Office) {
+
+                if (Office) {
                     localStorage.removeItem("permission_id");
                     localStorage.removeItem("startTime");
                     vm.isPermissionValid = true;
@@ -113,7 +113,7 @@
                     title: "Permission Request",
                     template: "Permission Updated"
                 }).then(function () {
-                    
+
                 });
             })
         }
@@ -123,14 +123,33 @@
         }
 
         vm.permission = function () {
-            if(localStorage.getItem("permission_id")) {
-                vm.entry_id = localStorage.getItem("permission_id");
-                vm.permissionTime = localStorage.getItem("permission_time");
-                vm.isOffice = false;
-                vm.isPermissionValid = false;
-            } else {
-                vm.isOffice = true;
-            }
+            vm.auth = localStorage.getItem("authoptions");
+            $http.defaults.headers.common['Authorization'] = vm.auth;
+            vm.authdata.headers.Authorization = vm.auth;
+            AuthInterceptor.request(vm.authdata);
+            PermissionService.permissionList(vm.userInfo.id).then(function (resp) {
+                console.log(resp);
+                if(resp.total_count === 1)
+                {
+                    if (localStorage.getItem("permission_id")) {
+                        vm.entry_id = localStorage.getItem("permission_id");
+                        vm.permissionTime = localStorage.getItem("permission_time");
+                        vm.isOffice = false;
+                        vm.isPermissionValid = false;
+                    } else {
+                        vm.isOffice = true;
+                    }
+                }
+                else
+                {
+                    localStorage.removeItem("permission_id");
+                    localStorage.removeItem("startTime");
+                    vm.isPermissionValid = true;
+                    vm.clickOffice = true;
+                }
+            });
+
+           
         }
 
         vm.enterMinutes = function () {
@@ -143,7 +162,7 @@
 
         vm.enterTime = function () {
 
-            $cordovaDatePicker.show(vm.options).then(function(date) {
+            $cordovaDatePicker.show(vm.options).then(function (date) {
                 vm.dayStartTime = $filter('date')(new Date(date), "h:mm a");
                 localStorage.setItem('startTime', vm.dayStartTime)
             });
@@ -155,8 +174,8 @@
 
         vm.permission();
 
-        if(vm.isNull(localStorage.getItem('startTime'))) {
-            vm.dayStartTime = $filter('date')(new Date(vm.convertTime), "h:mm a");    
+        if (vm.isNull(localStorage.getItem('startTime'))) {
+            vm.dayStartTime = $filter('date')(new Date(vm.convertTime), "h:mm a");
         } else {
             vm.dayStartTime = localStorage.getItem('startTime');
         }
@@ -167,16 +186,18 @@
             vm.startTime = moment(vm.dayStartTime, "h:mm a");
             vm.endTime = moment(vm.inOfficeTime, "h:mm a");
             vm.minutes = vm.endTime.diff(vm.startTime, 'minutes');
-
+            // console.log(vm.minutes)
+            vm.minutes = (15 * Math.ceil(vm.minutes / 15));
+            // console.log(vm.minutes)
             if (NetworkInformation.hasWifiConnection()) {
-                NetworkInformation.wifiNetworks().then(function(resp) {
+                NetworkInformation.wifiNetworks().then(function (resp) {
                     console.log(resp);
                     vm.officeWifi = resp.wifiList.filter(function (wifi) {
                         return wifi == "FTTH" || wifi == "FTTH2"
                     }).filter(function (data) {
                         return data == resp.currentWifi;
                     }).length;
-                
+
                     if (vm.officeWifi) {
                         vm.data = {
                             "time_entry": {
@@ -187,20 +208,20 @@
                                 "custom_fields": [
                                     {
                                         "id": 7,
-                                        "value": "Today Office Start Time "+ vm.dayStartTime +" Permission for " + vm.permissionTime + " Minutes. In Office Time " + vm.inOfficeTime
+                                        "value": "Today Office Start Time " + vm.dayStartTime + " Permission for " + vm.permissionTime + " Minutes. In Office Time " + vm.inOfficeTime
                                     }
                                 ]
                             }
                         }
                         vm.clickOffice = true;
                         vm.updatePermission(vm.entry_id, vm.data, vm.clickOffice);
-                        
+
                     } else {
                         $ionicPopup.alert({
                             title: "No Internet",
                             template: "Check your wifi-connection and try again"
                         }).then(function () {
-                            
+
                         });
                     }
                 })
@@ -209,7 +230,7 @@
                     title: "No Internet",
                     template: "Connect to office Wifi-network and try again"
                 }).then(function () {
-                    
+
                 });
             }
         }
@@ -217,6 +238,6 @@
 
     angular.module('redmine.permission')
         .controller('PermissionCtrl', PermissionCtrl)
-    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', '$ionicPopup','NetworkInformation', 'PermissionService', '$cordovaDatePicker'];
+    PermissionCtrl.$inject = ['$ionicHistory', '$filter', '$http', 'AuthInterceptor', '$ionicPopup', 'NetworkInformation', 'PermissionService', '$cordovaDatePicker'];
 
 }());

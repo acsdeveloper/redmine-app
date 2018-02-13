@@ -22,19 +22,12 @@
             });
 		}
 
-		// vm.permissionList = function(Id) {
-		// 	vm.url = "https://pm.agilecyber.co.uk/time_entries.json?project_id=227&user_id="+ Id +"&limit=100&spent_on="+vm.date;
-		// 	return Request.get(vm.url).then(function (resp) {
-  //               vm.deferred.resolve(resp);
-  //               return resp;
-  //           });
-		// }
-
-		vm.sendEmail = function(options) {
-			vm.url = "https://pm.agilecyber.co.uk/report/api/permission_email.php";
-			return Request.post(options).then(function (resp) {
-
-			})
+		vm.permissionList = function(Id) {
+			vm.url = "https://pm.agilecyber.co.uk/time_entries.json?project_id=227&user_id="+ Id +"&limit=1&spent_on="+vm.date;
+			return Request.get(vm.url).then(function (resp) {
+                vm.deferred.resolve(resp);
+                return resp;
+            });
 		}
 	}
 
