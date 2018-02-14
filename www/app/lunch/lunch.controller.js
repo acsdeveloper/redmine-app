@@ -21,7 +21,6 @@
         }
         vm.time = moment(new Date(), "h:mm:ss a");
         vm.LunchTime = moment("11:30:00 AM", "h:mm:ss a");
-        console.log(vm.time);
         vm.getUserdetails = JSON.parse(localStorage.getItem("authDetails"));
 
         vm.authdata = {

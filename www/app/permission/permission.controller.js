@@ -128,8 +128,7 @@
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.permissionList(vm.userInfo.id).then(function (resp) {
-                console.log(resp);
-                if(resp.total_count === 1)
+                if(resp.total_count >= 1)
                 {
                     if (localStorage.getItem("permission_id")) {
                         vm.entry_id = localStorage.getItem("permission_id");
@@ -186,12 +185,9 @@
             vm.startTime = moment(vm.dayStartTime, "h:mm a");
             vm.endTime = moment(vm.inOfficeTime, "h:mm a");
             vm.minutes = vm.endTime.diff(vm.startTime, 'minutes');
-            // console.log(vm.minutes)
             vm.minutes = (15 * Math.ceil(vm.minutes / 15));
-            // console.log(vm.minutes)
             if (NetworkInformation.hasWifiConnection()) {
                 NetworkInformation.wifiNetworks().then(function (resp) {
-                    console.log(resp);
                     vm.officeWifi = resp.wifiList.filter(function (wifi) {
                         return wifi == "FTTH" || wifi == "FTTH2"
                     }).filter(function (data) {
