@@ -15,6 +15,9 @@
                     {
                         "id": 39,
                         "value": "1"
+                    },
+                    {
+                        "id": 41
                     }
                 ]
             }
@@ -78,8 +81,10 @@
 
         vm.enterLunch = function() {
             if(vm.lunchoptions == "meals") {
+                vm.lunchparam.time_entry.custom_fields[1].value = "1"; 
                 vm.lunchparam.time_entry.comments = "I need meals (with one chapati) today";    
             } else {
+                vm.lunchparam.time_entry.custom_fields[1].value = "2"; 
                 vm.lunchparam.time_entry.comments = "I need chapati today";    
             }
             
