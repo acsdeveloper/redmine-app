@@ -128,8 +128,7 @@
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
             PermissionService.permissionList(vm.userInfo.id).then(function (resp) {
-                if(resp.total_count >= 1)
-                {
+                if(resp.total_count >= 1) {
                     if (localStorage.getItem("permission_id")) {
                         vm.entry_id = localStorage.getItem("permission_id");
                         vm.permissionTime = localStorage.getItem("permission_time");
@@ -138,9 +137,7 @@
                     } else {
                         vm.isOffice = true;
                     }
-                }
-                else
-                {
+                } else {
                     localStorage.removeItem("permission_id");
                     localStorage.removeItem("startTime");
                     vm.isPermissionValid = true;

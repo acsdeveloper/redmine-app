@@ -42,7 +42,12 @@
 
       });
       $ionicPlatform.on('pause', function() {
-        $ionicHistory.goBack();
+        if("home" === $ionicHistory.currentStateName()) {
+            ionic.Platform.exitApp();
+        } else {
+          $ionicHistory.goBack();  
+        }
+        
       });
     })  
 }());
