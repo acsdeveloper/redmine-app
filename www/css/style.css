@@ -204,3 +204,11 @@
 .bar button.button-icon:before {
     font-size: 21px !important; 
 }
+
+.lunch_title {
+    font-size: 14px;
+}
+
+.lunch_list {
+    padding: 0 48px 0 6px !important;
+}

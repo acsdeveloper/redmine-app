@@ -4,13 +4,13 @@
     function LunchCtrl(LunchService, $http, AuthInterceptor, $ionicHistory, $filter, $ionicPopup) {
         var vm = this;
         vm.lunchbooked_id = "";
-        vm.lunchoptions = "Yes";
+        vm.lunchoptions = "meals";
         vm.lunchparam = {
             "time_entry": {
                 "project_id": 342,
                 "hours": 0.00,
                 "activity_id": 16,
-                "comments": "I need lunch today",
+                // "comments": "I need lunch today",
                 "custom_fields": [
                     {
                         "id": 39,
@@ -34,28 +34,37 @@
             $http.defaults.headers.common['Authorization'] = vm.auth;
             vm.authdata.headers.Authorization = vm.auth;
             AuthInterceptor.request(vm.authdata);
-            if (vm.time.isBefore(vm.LunchTime)) {
-                LunchService.lunch(vm.lunchparam).then(function (resp) {
-                    vm.lunchbooked_id = resp.time_entry.id;
-                });
-                vm.lunchbooking();
-            }
-            else {
-                $ionicPopup.alert({
-                    title: "Lunch Booking",
-                    template: "You can't book lunch today"
-                }).then(function () {
+            // if(vm.lunchoptions == "") {
+            //     $ionicPopup.alert({
+            //         title: "Lunch Booking",
+            //         template: "Select Your Lunch Menu"
+            //     }).then(function () {
 
-                });
-            }
+            //     });
+            // } else {
+                if (vm.time.isBefore(vm.LunchTime)) {
+                    LunchService.lunch(vm.lunchparam).then(function (resp) {
+                        vm.lunchbooked_id = resp.time_entry.id;
+                        vm.lunchbooking();
+                    });
+                }
+                else {
+                    $ionicPopup.alert({
+                        title: "Lunch Booking",
+                        template: "You can't book lunch today"
+                    }).then(function () {
+
+                    });
+                }
+            // }
         }
 
         vm.cancellunch = function (lunchid) {
             if (vm.time.isBefore(vm.LunchTime)) {
                 LunchService.cancellunch(lunchid).then(function (resp) {
                     vm.lunchbooked_id = "";
+                    vm.lunchbooking();
                 });
-                vm.lunchbooking();
             }
             else {
                 $ionicPopup.alert({
@@ -65,6 +74,15 @@
 
                 });
             }
+        }
+
+        vm.enterLunch = function() {
+            if(vm.lunchoptions == "meals") {
+                vm.lunchparam.time_entry.comments = "I need meals (with one chapati) today";    
+            } else {
+                vm.lunchparam.time_entry.comments = "I need chapati today";    
+            }
+            
         }
 
         vm.lunchbooking = function () {
@@ -92,6 +110,7 @@
         }
 
         vm.lunchbooking();
+        vm.enterLunch();
         vm.myGoBack = function () {
             $ionicHistory.goBack();
         }

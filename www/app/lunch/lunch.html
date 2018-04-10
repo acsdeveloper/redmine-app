@@ -7,15 +7,17 @@
   </ion-header-bar>
     <ion-content class="lunch-screen" overflow-scroll=”false”>
         <div class="list">
-            <!-- <label class="item item-input item-select">
-                <div class="input-label">
-                    Total Count 
+            <label class="item item-input item-select">
+                <div class="input-label lunch_title">
+                    Choose Menu 
                 </div>
-                <select ng-model="vm.lunchoptions">
-                    <option>Yes</option>
-                    <option>No</option>
+                <select class="lunch_list" ng-model="vm.lunchoptions" ng-change="vm.enterLunch()">
+                    <option value="meals">Meals (with one Chapati)</option>
+                    <option value="chapati">Chapati only</option>
                 </select>
-            </label> -->
+            </label>
+        </div>
+        <div class="list">
             <div class="message">
                 Today's Lunch Count   :    {{vm.totay_count || 0}}
             </div>
